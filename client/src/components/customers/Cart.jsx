@@ -78,9 +78,17 @@ const Cart = ({ user }) => {
   };
 
   const updateQuantity = async (id, e) => {
+    let value;
+    if (e > 20) {
+      value = 20;
+      alert("Sorry there is a max quantity of 20 ");
+    } else {
+      value = e;
+    }
+
     try {
       await axios.put(`http://localhost:5000/updateQuantity/${id}`, {
-        quantity: e,
+        quantity: value,
       });
       getCartItems();
     } catch (err) {

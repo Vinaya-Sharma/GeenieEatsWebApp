@@ -73,7 +73,7 @@ const History = ({ user }) => {
       <div className=" w-11/12screen lg:w-100per">
         <div className="w-full p-12 mt-10 overflow-auto  bg-dblue">
           <div className="flex flex-row mb-5">
-            <p className="min-w-250 w-250 text-lg mt-2 text-white italic font-bold">
+            <p className="min-w-250 w-250 mr-5 text-lg mt-2 text-white italic font-bold">
               Restaurant
             </p>
             <p className="min-w-250 w-250 text-lg mt-2 text-white italic font-bold">
@@ -96,10 +96,10 @@ const History = ({ user }) => {
                 <div
                   className={`${
                     order.paid && "border-2 border-emerald-700"
-                  } p-2 mr-2 w-200 sm:min-w-250  align-center flex flex-col`}
+                  } p-2 mr-5 min-w-250  align-center flex flex-col`}
                 >
-                  <p className="text-md text-white">{order.name}</p>
-                  <p className="text-sm text-stone-300">{order.email}</p>
+                  <p className="text-md text-white">{order.restName}</p>
+                  <p className="text-sm text-stone-300">{order.restLocation}</p>
                   {order.paid && (
                     <div className="w-full items-center mt-1 gap-2 flex">
                       <div className="w-2 h-2 rounded-full bg-emerald-700" />

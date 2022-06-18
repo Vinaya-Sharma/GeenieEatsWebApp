@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Img from "../assets/logo.png";
@@ -69,7 +69,10 @@ const RestProf = ({ restaurant, user }) => {
 
   return (
     <div>
-      <div className="flex h-full min-h-screen bg-base place-self-center flex-col w-12/12">
+      <div className="flex relative h-full min-h-screen bg-base place-self-center flex-col w-12/12">
+        <div className="shadow-lg  w-6 h-6 absolute top-2 left-2 items-center justify-center flex bg-white rounded-full">
+          <FontAwesomeIcon icon={faArrowLeft} className="text-lg text-black" />
+        </div>
         <div className="w-full h-full">
           <img className="w-full h-48 object-cover" src={thisRestaurant.img} />
         </div>
