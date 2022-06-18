@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleDollarToSlot, faPerson, faPlateWheat } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import { useStateContext } from '../../context/stateContext'
 
-const Orders = ({restaurant}) => {
+const Orders = () => {
     const [theOrders, settheOrders] = useState([])
+    const {restObj} = useStateContext()
 
     const numDishes = () => {
         return theOrders?.length
@@ -48,9 +50,8 @@ const Orders = ({restaurant}) => {
     }
 
     const getOrders = async() => {
-        console.log(restaurant)
         try{
-            const resp = await axios.post(`http://localhost:5000/getOrders/${restaurant}`)
+            const resp = await axios.post(`http://localhost:5000/getOrders/${restObj.email}`)
             const sorted = resp.data.sort((a,b) => {
                 if (a.completed > b.completed) return -1;
                 if (a.completed < b.completed) return 1;

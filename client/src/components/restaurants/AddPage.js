@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPenToSquare, faTrash, faEyeSlash, faEye, faArrowAltCircleRight} from '@fortawesome/free-solid-svg-icons'
 import AddItemPopup from './addItemPopup'
 import axios from 'axios'
+import { useStateContext } from '../../context/stateContext'
 
-const AddPage = ({restEmail}) => {
+const AddPage = () => {
     const [addPopup, setAddPopup] = useState(false)
     const [meals, setMeals] = useState([])
     const [name, setName] = useState('')
@@ -14,12 +15,17 @@ const AddPage = ({restEmail}) => {
     const [prepTime, setPreptime] = useState('')
     const [img, setImg] = useState('')
     const [edit, setEdit] = useState(false)
+    const [visibility, setVisibility] = useState(false)
+
+
+    const {restObj} = useStateContext()
 
 
     const updateVisibility = async(meal) =>{
         const available = !(meal.available)
         try{
-            await axios.put('http://localhost:5000/updateAvailability', {email:restEmail,id:meal._id,available})
+            await axios.put('http://localhost:5000/updateAvailability', {email:restObj.email,id:meal._id,available})
+            setVisibility(!visibility)
         }catch(err){
             console.log(err)
         }
@@ -41,7 +47,8 @@ const AddPage = ({restEmail}) => {
 
     const deleteMeal = async(meal) => {
         try{
-            const resp = await axios.post('http://localhost:5000/deleteDish', {id:meal._id, email:restEmail})
+            const resp = await axios.post('http://localhost:5000/deleteDish', {id:meal._id, email:restObj.email})
+            setVisibility(!visibility)
         } catch(err){
             console.log(err)
             alert(err)
@@ -61,7 +68,7 @@ const AddPage = ({restEmail}) => {
 
     const findMeals = async() => {
         try{
-            const resp = await axios.post('http://localhost:5000/findDishes', {email:restEmail})
+            const resp = await axios.post('http://localhost:5000/findDishes', {email:restObj.email})
             setMeals(resp?.data?.dishes ? resp.data.dishes : '')
             console.log(resp)
         }catch(err){
@@ -71,11 +78,11 @@ const AddPage = ({restEmail}) => {
 
     useEffect(() => {
         findMeals()
-    }, [meals])
+    }, [addPopup, visibility])
 
   return (
     <div className='min-h-screen relative h-full w-full bg-base p-20'>
-       <AddItemPopup restEmail={restEmail} setAddPopup={setAddPopup} edit={edit} setEdit={setEdit} addPopup={addPopup} name={name} description={description} ingredients={ingredients} cost={cost} prepTime={prepTime} img={img} setName={setName} setDescription={setDescription} setIngredients={setIngredients} setCost={setCost} setPreptime={setPreptime} setImg={setImg} />
+       <AddItemPopup restEmail={restObj.email} setAddPopup={setAddPopup} edit={edit} setEdit={setEdit} addPopup={addPopup} name={name} description={description} ingredients={ingredients} cost={cost} prepTime={prepTime} img={img} setName={setName} setDescription={setDescription} setIngredients={setIngredients} setCost={setCost} setPreptime={setPreptime} setImg={setImg} />
      <p className='text-2xl font-bold text-white tracking-widest'>Manage Meals</p>
 
      <div className='w-11/12 mt-10 place-self-center place-items-center flex flex-col bg-[#1F1D2B] p-12 rounded-lg'>
@@ -94,7 +101,7 @@ const AddPage = ({restEmail}) => {
                      <p className='text-sm  text-white place-self-center w-full text-center my-1'>{meal.description}</p>
                      <p className='text-sm font-bold text-stone-300 place-self-center w-full text-center my-3'>${meal.cost} • {meal.prepTime? `${meal.prepTime}mins`:`Ingredients: ${meal.ingredients.length>10?`${meal.ingredients.slice(0,10)}...`:meal.ingredients}`} </p>
                     <div className='w-full h-20 mt-3 bg-teal bg-opacity-50 flex rounded-sm place-content-center center justify-center flex-row'>
-                        <div onClick={() => editDish(meal)} className='flex flex-col text-teal hover:text-white place-content-center place-self-center w-2/6 mx-5'> <FontAwesomeIcon className='w-6 h-6 place-self-center' icon={faPenToSquare}/> <p className='place-self-center text-sm mt-1 w-full text-center'>edit</p> </div>
+                        <div onClick={() => {editDish(meal)}} className='flex flex-col text-teal hover:text-white place-content-center place-self-center w-2/6 mx-5'> <FontAwesomeIcon className='w-6 h-6 place-self-center' icon={faPenToSquare}/> <p className='place-self-center text-sm mt-1 w-full text-center'>edit</p> </div>
                         <div onClick={() => updateVisibility(meal)} className='flex flex-col text-teal hover:text-white place-content-center align-center w-2/6 mx-5'> <FontAwesomeIcon className='w-6 h-6 place-self-center' icon= {meal.available?faEye:faEyeSlash}/>  <p className='place-self-center text-sm mt-1 w-full text-center'>{meal.available?'available':'unavailable'}</p> </div>
                         <div onClick={() => deleteMeal(meal)}  className='flex flex-col text-teal hover:text-white place-content-center align-center w-2/6 mx-5'> <FontAwesomeIcon className='w-6 h-6 place-self-center ' icon={faTrash}/>  <p className='place-self-center text-sm mt-1 w-full text-center'>remove</p> </div>
                      </div>

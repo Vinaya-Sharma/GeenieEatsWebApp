@@ -3,8 +3,9 @@ import background from '../../assets/background.png'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import { useCookies } from 'react-cookie';
+import { useStateContext } from '../../context/stateContext';
 
-const RestLogin = ({setIsRest}) => {
+const RestLogin = () => {
   const navigate = useNavigate()
 
   const [login, setLogin] = useState(true)
@@ -16,6 +17,7 @@ const RestLogin = ({setIsRest}) => {
   const [logo, setLogo] = useState('')
   const [img, setImg] = useState('')
   const [cookies, setCookie, removeCookie] = useCookies([])
+  const {restLoginFunc, restSignupFunc} = useStateContext()
 
   const switchLS = () => {
     setLogin(!login)
@@ -26,40 +28,10 @@ const RestLogin = ({setIsRest}) => {
     const email = theEmail.toLowerCase()
 
     if (login && theEmail && password){
-      try{
-        const resp = await axios.post('http://localhost:5000/restaurant/login', {
-          email,password
-        })
-
-        setCookie('email', resp.data.email)
-        setIsRest(resp.data.email)
-
-        if (resp.status === 201){
-          navigate('/restaurants')
-        } else {
-          alert('invalid credentials')
-        }
-      }catch(err){
-        alert('invalid credentials')
-      }
+      restLoginFunc(email, password)
 
     } else if (!login && theEmail && password && name ){
-    try{
-      const resp = await axios.post('http://localhost:5000/restaurant/signup', {
-        name, email, password, website,location,img,logo
-      })
-      setCookie('email', resp.data.email)
-      setIsRest(resp.data.email)
-
-      if (resp.status === 200){
-        navigate('/restaurants')
-      } else (
-        console.log('email taken')
-      )
-    }catch(err){
-      console.log(err)
-     alert('email taken...try another')
-    }
+      restSignupFunc(name, email, password, website,location,img,logo)
   }}
 
 
@@ -90,34 +62,60 @@ const RestLogin = ({setIsRest}) => {
       <div className='flex flex-row align-center center place-content-center justify-center w-full'>
 
         <form className='place-self-center' onSubmit={(e) => submitForm(e)}>
-          <div className="flex flex-col h-full place-content-center space-y-2 mt-5">
 
-          {!login && <div className="flex flex-col space-y-2 ">
+          {/** INPUTS */}
+          <div className="flex flex-col h-full place-content-center space-y-2 mt-5">
+       
+        <div className={`${!login && 'lg:flex lg:space-x-5 '}`} >
+         <div className='space-y-2' >
+
+        {!login && <div className="flex flex-col space-y-2 ">
           <label className='text-sm text-stone-300' htmlFor="name">business name</label>
           <input type="text" name='name' onChange={(e) => setName(e.target.value) } value={name} className=' min-w-250 bg-white p-2 rounded-full' />
           </div> }
+
+          <div className='flex flex-col space-y-2'>
           <label className='text-sm text-stone-300' htmlFor="email">email</label>
           <input type="email"  name='email' value={theEmail}  onChange={(e) => setEmail(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
+          </div>
+
+
+          {
+            !login && (
+              <div>
+              <div className='flex flex-col space-y-2'>
+                 <label className='text-sm text-stone-300 ' htmlFor="website">website</label>
+                <input type="url"  name='website' value={website}  onChange={(e) => setWebsite(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
+                </div>
+                 <div className='flex flex-col space-y-2'>
+                 <label className='text-sm text-stone-300  mt-2' htmlFor="location">location address</label>
+                 <input type="text"  name='location' value={location}  onChange={(e) => setLocation(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
+               </div></div>
+               )
+          }
+
+          </div>
+          <div className='space-y-2 w-full' >
         {
             !login && (<div className='flex flex-col space-y-2'>
-                 <label className='text-sm text-stone-300 mt-2 ' htmlFor="website">website</label>
-                <input type="url"  name='website' value={website}  onChange={(e) => setWebsite(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
-        
-                <label className='text-sm text-stone-300 mt-2 ' htmlFor="location">location address</label>
-                <input type="text"  name='location' value={location}  onChange={(e) => setLocation(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
-
+              <div className='flex flex-col space-y-2'>
                 <label className='text-sm text-stone-300 mt-2 ' htmlFor="website">restaurant image</label>
                 <input type="url"  name='website' value={img}  onChange={(e) => setImg(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
-
+              </div> 
+                <div className='flex flex-col space-y-2'>
                 <label className='text-sm text-stone-300 mt-2 ' htmlFor="logo">business logo</label>
                 <input type="url"  name='logo' value={logo}  onChange={(e) => setLogo(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
+                </div> 
             </div>)
         }
-          
+               <div className='flex flex-col space-y-2'>
           <label className='text-sm text-stone-300 mt-2 ' htmlFor="password">password</label>
           <input type="password" value={password}  name='password' onChange={(e) => setPassword(e.target.value) }  className=' min-w-250 bg-white p-2 rounded-full' />
-          
+          </div> 
+          </div>
+        </div>
           <input type="submit" className='m-10 min-w-250 bg-teal text-white p-2 rounded-full' />
+              
           </div>
         </form>
             {/** FORM ENDS */}
