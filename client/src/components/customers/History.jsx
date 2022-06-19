@@ -39,20 +39,21 @@ const History = ({ user }) => {
 
   let orderId;
   const placeStripeOrder = async () => {
-    try {
-      const orderId = window.location.toString().slice(30);
-      console.log(orderId);
-      await axios
-        .post("http://localhost:5000/placeStripeOrder", {
-          orderId: orderId,
-          user: isUser,
-        })
-        .then(async () => {
-          await getOrders();
-          await getCartItems();
-        });
-    } catch (err) {
-      console.log(err);
+    const orderId = window.location.toString().slice(30);
+    if (orderId && !orderId.includes("/History")) {
+      try {
+        await axios
+          .post("http://localhost:5000/placeStripeOrder", {
+            orderId: orderId,
+            user: isUser,
+          })
+          .then(async () => {
+            await getOrders();
+            await getCartItems();
+          });
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

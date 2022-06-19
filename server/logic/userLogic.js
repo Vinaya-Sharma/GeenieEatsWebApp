@@ -45,7 +45,10 @@ export const history = async (req, res) => {
   const email = req.params.email;
 
   try {
-    const resp = await orderModel.find({ email: email, placed: true });
+    const resp = await orderModel
+      .find({ email: email, placed: true })
+      .limit(10)
+      .sort({ placedAt: "-1" });
     res.status(201).send(resp);
   } catch (err) {
     console.log(err);

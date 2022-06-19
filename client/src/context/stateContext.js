@@ -85,9 +85,10 @@ export const StateContext = ({ children }) => {
       });
 
       if (resp.status === 200) {
+        setRestObj(null);
+        setIsRest(null);
         setIsUser(resp.data.user.email);
         setUserObj(resp.data.user);
-        setIsRest(null);
         setCookie("email", resp.data.user.email);
         setCookie("auth", resp.data.token);
         Navigator("/");
@@ -212,9 +213,6 @@ export const StateContext = ({ children }) => {
     removeCookie("auth", { path: "/restaurants" });
     Navigator("/login");
   };
-
-  //only keep last 10 orders
-  const deleteOldOrders = async () => {};
 
   return (
     <Context.Provider

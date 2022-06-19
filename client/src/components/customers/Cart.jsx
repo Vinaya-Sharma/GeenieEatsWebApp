@@ -47,6 +47,12 @@ const Cart = ({ user }) => {
         const theItem = resp.data.filter(
           (dish) => dish._id == cartItems[i].itemId
         );
+        if (!cartItems[i] || cartItems[i].quantity < 1) {
+          toast.error(
+            `Please remove the ${cartItems[i].itemName} from your cart or purchase atleast 1`
+          );
+          return;
+        }
         if (theItem[0].available !== true) {
           toast.error(`${cartItems[i].itemName} is unavailable right now`);
           return;
@@ -73,6 +79,12 @@ const Cart = ({ user }) => {
         const theItem = resp.data.filter(
           (dish) => dish._id == cartItems[i].itemId
         );
+        if (!cartItems[i] || cartItems[i].quantity < 1) {
+          toast.error(
+            `Please remove the ${cartItems[i].itemName} from your cart or purchase atleast 1`
+          );
+          return;
+        }
         if (theItem[0].available !== true) {
           toast.error(`${cartItems[i].itemName} is unavailable right now`);
           return;
@@ -101,6 +113,7 @@ const Cart = ({ user }) => {
 
   const updateQuantity = async (id, e) => {
     let value;
+
     if (e > 20) {
       value = 20;
       toast.error("Sorry there is a max quantity of 20 ");
