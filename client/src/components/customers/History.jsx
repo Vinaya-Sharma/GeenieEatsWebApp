@@ -14,7 +14,10 @@ const History = ({ user }) => {
   const findTime = (order) => {
     let oldDateObj = new Date(order.placedAt);
     let diff = order.prepTime;
-    return new Date(oldDateObj.getTime() + diff * 60000).toLocaleTimeString();
+    return new Date(oldDateObj.getTime() + diff * 60000).toLocaleTimeString(
+      [],
+      { hour: "2-digit", minute: "2-digit" }
+    );
   };
 
   const getOrders = async () => {

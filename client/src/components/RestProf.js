@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Img from "../assets/logo.png";
 import { useStateContext } from "../context/stateContext";
+import toast from "react-hot-toast";
 
 const RestProf = ({ restaurant, user }) => {
   const Params = useParams();
@@ -16,7 +17,7 @@ const RestProf = ({ restaurant, user }) => {
 
   const addMeal = async (item) => {
     if (restaurant) {
-      alert(
+      toast.error(
         "sorry restaurants can not place orders, please create a user account to continue shopping"
       );
     } else {
@@ -33,6 +34,7 @@ const RestProf = ({ restaurant, user }) => {
           restLocation: thisRestaurant.location,
           itemCost: item.cost,
         });
+        toast.success(`${item.name} added to cart`);
         getCartItems();
       } catch (err) {
         console.log(err);
@@ -71,7 +73,12 @@ const RestProf = ({ restaurant, user }) => {
     <div>
       <div className="flex relative h-full min-h-screen bg-base place-self-center flex-col w-12/12">
         <div className="shadow-lg  w-6 h-6 absolute top-2 left-2 items-center justify-center flex bg-white rounded-full">
-          <FontAwesomeIcon icon={faArrowLeft} className="text-lg text-black" />
+          <Link to={"/home"}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className="text-lg text-black"
+            />
+          </Link>
         </div>
         <div className="w-full h-full">
           <img className="w-full h-48 object-cover" src={thisRestaurant.img} />

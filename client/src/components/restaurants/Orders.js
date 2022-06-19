@@ -145,6 +145,12 @@ const Orders = () => {
                 >
                   <p className="text-md text-white">{order.name}</p>
                   <p className="text-sm text-stone-300">{order.email}</p>
+                  {order.paid && (
+                    <div className="w-full items-center mt-1 gap-2 flex">
+                      <div className="w-2 h-2 rounded-full bg-emerald-700" />
+                      <p className="text-sm text-emerald-700">Paid</p>
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-250 min-w-250  mt-2 align-center flex flex-row">

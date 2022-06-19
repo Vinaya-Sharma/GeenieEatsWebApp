@@ -55,7 +55,6 @@ export const history = async (req, res) => {
 export const placeOrder = async (req, res) => {
   const email = req.params.email;
   const { placed, placedAt, stripeId } = req.body;
-  console.log("carried id", stripeId);
   try {
     await orderModel.updateMany(
       { email: email, placed: false },

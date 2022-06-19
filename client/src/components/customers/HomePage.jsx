@@ -11,7 +11,6 @@ const HomePage = () => {
   const date = new Date().toDateString();
 
   useEffect(() => {
-    console.log(userObj, isUser);
     getRest();
   }, [isUser]);
 

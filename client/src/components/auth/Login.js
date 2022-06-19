@@ -13,10 +13,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const { loginFunc, signupFunc, isUser } = useStateContext();
 
-  useEffect(() => {
-    console.log(isUser);
-  }, []);
-
   const switchLS = () => {
     setLogin(!login);
   };

@@ -8,6 +8,7 @@ import {
   faArrowLeft,
   faUtensils,
   faBurger,
+  faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "../context/stateContext";
 
@@ -111,6 +112,25 @@ const SideBar = ({ restaurant }) => {
                 </div>
               );
             })}
+        {!isRest && (
+          <div
+            className="lg:hidden flex flex-col"
+            onClick={() => setPage("cart")}
+          >
+            <div
+              className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
+            >
+              <NavLink to={"cart"}>
+                <FontAwesomeIcon
+                  color={page === "cart" ? "teal" : "white"}
+                  className="fa-md"
+                  icon={faShoppingCart}
+                />
+              </NavLink>
+            </div>
+            <p className="text-white text-sm mb-5">Cart</p>
+          </div>
+        )}
       </div>
       <div
         onClick={() => logout()}

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-
+import toast from "react-hot-toast";
 const Context = createContext({ isUser: null, isRest: null });
 
 export const StateContext = ({ children }) => {
@@ -15,19 +15,15 @@ export const StateContext = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const Navigator = useNavigate();
 
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
   const userCheck = async () => {
     if (cookies.auth && cookies.email) {
       setIsRest(null);
       setRestObj(null);
       setIsUser(cookies.email);
       findUser();
-      console.log("doing #1");
     } else if (isUser && userObj) {
       setIsRest(null);
       setRestObj(null);
-      console.log("doing #2");
     } else if (
       cookies.auth &&
       cookies.emailr &&
@@ -43,7 +39,6 @@ export const StateContext = ({ children }) => {
       setIsUser(null);
       setUserObj(null);
     } else {
-      console.log("doing no user");
       if (window.location.toString().includes("restaurants")) {
         Navigator("/restaurants/login");
       } else {
@@ -70,11 +65,12 @@ export const StateContext = ({ children }) => {
         setCookie("email", resp.data.user.email);
         setCookie("auth", resp.data.token);
         Navigator("/");
+        toast.loading("Signing you in!");
       } else {
-        alert("invalid credentials");
+        toast.error("Invalid credentials, try again");
       }
     } catch (err) {
-      alert("invalid credentials");
+      toast.error("Invalid credentials, try again");
     }
   };
 
@@ -95,10 +91,10 @@ export const StateContext = ({ children }) => {
         setCookie("email", resp.data.user.email);
         setCookie("auth", resp.data.token);
         Navigator("/");
-      } else console.log("email taken");
+      } else console.log("Email taken");
     } catch (err) {
       console.log(err);
-      alert("email taken...try another");
+      toast.error("Email taken...try another");
     }
   };
 
@@ -116,11 +112,12 @@ export const StateContext = ({ children }) => {
         setCookie("emailr", resp.data.rest.email);
         setCookie("auth", resp.data.token);
         Navigator("/restaurants");
+        toast.loading("Signing you in!");
       } else {
-        alert("invalid credentials");
+        toast.error("Invalid credentials");
       }
     } catch (err) {
-      alert("invalid credentials");
+      toast.error("Invalid credentials");
     }
   };
 
@@ -154,7 +151,7 @@ export const StateContext = ({ children }) => {
       } else console.log("email taken");
     } catch (err) {
       console.log(err);
-      alert("email taken...try another");
+      toast.error("Email taken...try another");
     }
   };
 
@@ -174,7 +171,9 @@ export const StateContext = ({ children }) => {
       });
       setUserObj(resp.data);
     } catch (err) {
-      alert("user not found");
+      console.log("user not found");
+      setIsUser(null);
+      setUserObj(null);
     }
   };
 
@@ -202,6 +201,7 @@ export const StateContext = ({ children }) => {
   };
 
   const logout = () => {
+    toast.loading("Signing you out");
     setIsRest(null);
     setIsUser(null);
     setRestObj(null);
@@ -212,6 +212,9 @@ export const StateContext = ({ children }) => {
     removeCookie("auth", { path: "/restaurants" });
     Navigator("/login");
   };
+
+  //only keep last 10 orders
+  const deleteOldOrders = async () => {};
 
   return (
     <Context.Provider
