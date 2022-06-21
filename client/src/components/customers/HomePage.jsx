@@ -5,17 +5,19 @@ import { useStateContext } from "../../context/stateContext";
 const HomePage = () => {
   const Navigator = useNavigate();
   const [search, setSearch] = useState("");
-  const { userObj, getRest, restObj, restaurants, isUser } = useStateContext();
+  const { userObj, getRest, restObj, restaurants, isUser, getOrders } =
+    useStateContext();
   const storeImg =
     "https://images.pexels.com/photos/172277/pexels-photo-172277.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
   const date = new Date().toDateString();
 
   useEffect(() => {
     getRest();
+    getOrders();
   }, [isUser]);
 
   return (
-    <div className="h-full min-h-screen  md:w-full w-screen bg-base p-20">
+    <div className="h-full min-h-screen w-full bg-base p-20">
       <div className="flex flex-col md:flex-row w-full justify-center">
         <div className={`flex flex-col ${restObj ? "w-full" : "w-3/6"}`}>
           <p className="text-2xl font-bold text-white tracking-widest">

@@ -15,6 +15,8 @@ import {
   history,
   placeStripeOrder,
   checkAvailability,
+  numDishes,
+  impactReportUser,
 } from "./logic/userLogic.js";
 import {
   restaurantSignup,
@@ -173,6 +175,8 @@ app.put("/levelUp", levelUp);
 app.post("/history/:email", history);
 
 app.post("/checkAvailability", checkAvailability);
+app.post("/numDishes", numDishes);
+app.post("/impactReportUser", impactReportUser);
 
 app.listen(PORT, () => {
   console.log("server is working on", PORT);

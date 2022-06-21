@@ -151,6 +151,7 @@ const Cart = ({ user }) => {
       {cartItems.length > 0 ? (
         <div className="min-h-screen overflow-scroll w-full  bg-base lg:bg-dblue  max-h-screen h-full flex flex-col">
           <p className="font-sm text-white ">Order from {user?.name} 👨‍🍳</p>
+          <hr className="text-white bg-white flex min-w-24 h-2 w-full p-2" />
 
           <div className="flex flex-col w-full justify-center place-self-center center align-center mt-10">
             <div className="flex-row flex">
@@ -224,8 +225,9 @@ const Cart = ({ user }) => {
           </div>
         </div>
       ) : (
-        <div className="w-fu;; h-full flex flex-col gap-3">
+        <div className="w-full h-full flex flex-col gap-3">
           <p className="font-sm text-white ">Order from {user?.name} 👨‍🍳</p>
+          <hr className="text-white bg-white flex w-full my-2" />
           <p className="text-gray-300 ">
             Currently empty, treat yourself with GeenieEats!
           </p>

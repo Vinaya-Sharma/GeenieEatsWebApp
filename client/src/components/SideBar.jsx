@@ -13,7 +13,7 @@ import {
 import { useStateContext } from "../context/stateContext";
 
 const SideBar = ({ restaurant }) => {
-  const { isRest } = useStateContext();
+  const { isRest, isUser, userObj } = useStateContext();
 
   const restElements = [
     {
@@ -37,7 +37,7 @@ const SideBar = ({ restaurant }) => {
       icon: faBurger,
     },
     {
-      name: "myImpact",
+      name: `myImpact/${restaurant?.name}`,
       disName: "Impact",
       icon: faEarthAmericas,
     },
@@ -55,7 +55,7 @@ const SideBar = ({ restaurant }) => {
       icon: faPizzaSlice,
     },
     {
-      name: "myImpact",
+      name: `myImpact/${userObj.slug}`,
       disName: "Impact",
       icon: faEarthAmericas,
     },

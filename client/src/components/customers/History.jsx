@@ -9,8 +9,7 @@ import axios from "axios";
 import { useStateContext } from "../../context/stateContext";
 
 const History = ({ user }) => {
-  const [theOrders, settheOrders] = useState([]);
-  const { getCartItems, isUser } = useStateContext();
+  const { getCartItems, isUser, theOrders, getOrders } = useStateContext();
   const findTime = (order) => {
     let oldDateObj = new Date(order.placedAt);
     let diff = order.prepTime;
@@ -18,23 +17,6 @@ const History = ({ user }) => {
       [],
       { hour: "2-digit", minute: "2-digit" }
     );
-  };
-
-  const getOrders = async () => {
-    try {
-      const resp = await axios.post(
-        `http://localhost:5000/history/${user.email}`
-      );
-      settheOrders(
-        resp.data.sort((a, b) => {
-          if (a.completed > b.completed) return -1;
-          if (a.completed < b.completed) return 1;
-          return 0;
-        })
-      );
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   let orderId;
@@ -107,7 +89,7 @@ const History = ({ user }) => {
                   {order.paid && (
                     <div className="w-full items-center mt-1 gap-2 flex">
                       <div className="w-2 h-2 rounded-full bg-emerald-700" />
-                      <p className="text-sm text-emerald-700">Paid</p>
+                      <p className="text-sm text-emerald-700">Paid Online</p>
                     </div>
                   )}
                 </div>

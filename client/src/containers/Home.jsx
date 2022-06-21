@@ -43,7 +43,7 @@ const Home = () => {
         <div className="flex bg-dblue md:hidden">
           <NavBar showSideBar={showSideBar} setShowSidebar={setShowSidebar} />
         </div>
-        <div className="rounded-t-lg w-12/12">
+        <div className="rounded-t-lg w-full">
           {findUser && <HeroRouter user={userObj} restaurants={restaurants} />}
         </div>
       </div>

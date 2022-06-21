@@ -148,7 +148,7 @@ const Orders = () => {
                   {order.paid && (
                     <div className="w-full items-center mt-1 gap-2 flex">
                       <div className="w-2 h-2 rounded-full bg-emerald-700" />
-                      <p className="text-sm text-emerald-700">Paid</p>
+                      <p className="text-sm text-emerald-700">Paid Online</p>
                     </div>
                   )}
                 </div>

@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import HomePage from "../components/customers/HomePage";
 import History from "../components/customers/History";
-import MyImpact from "../components/customers/MyImpact";
+import Impact from "../components/customers/Impact";
 import RestProf from "../components/RestProf";
 import AddPage from "../components/restaurants/AddPage";
 import Orders from "../components/restaurants/Orders";
@@ -23,7 +23,7 @@ const HeroRouter = ({ user, restaurants, restaurant }) => {
         }
       />
       <Route path="/History/*" element={<History user={user} />} />
-      <Route path="/myImpact" element={<MyImpact />} />
+      <Route path="/myImpact/:slug" element={<Impact />} />
       <Route
         path="/order/:name"
         element={<RestProf user={user} restaurant={restaurant} />}

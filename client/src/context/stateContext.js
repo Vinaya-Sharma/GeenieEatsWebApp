@@ -11,6 +11,7 @@ export const StateContext = ({ children }) => {
   const [userObj, setUserObj] = useState(null);
   const [isRest, setIsRest] = useState(null);
   const [restObj, setRestObj] = useState(null);
+  const [theOrders, settheOrders] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const Navigator = useNavigate();
@@ -201,6 +202,21 @@ export const StateContext = ({ children }) => {
     }
   };
 
+  const getOrders = async () => {
+    try {
+      const resp = await axios.post(`http://localhost:5000/history/${isUser}`);
+      settheOrders(
+        resp.data.sort((a, b) => {
+          if (a.completed > b.completed) return -1;
+          if (a.completed < b.completed) return 1;
+          return 0;
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const logout = () => {
     toast.loading("Signing you out");
     setIsRest(null);
@@ -236,6 +252,8 @@ export const StateContext = ({ children }) => {
         cartItems,
         setCartItems,
         userCheck,
+        getOrders,
+        theOrders,
       }}
     >
       {children}
