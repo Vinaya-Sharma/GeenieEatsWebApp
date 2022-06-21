@@ -31,6 +31,8 @@ import {
   setAvailability,
   getOrders,
   levelUp,
+  impactReportRest,
+  restNumDishes,
 } from "./logic/restaurantLogic.js";
 import dotenv from "dotenv";
 import Stripe from "stripe";
@@ -177,6 +179,9 @@ app.post("/history/:email", history);
 app.post("/checkAvailability", checkAvailability);
 app.post("/numDishes", numDishes);
 app.post("/impactReportUser", impactReportUser);
+
+app.post("/impactReportRest", impactReportRest);
+app.post("/restNumDishes", restNumDishes);
 
 app.listen(PORT, () => {
   console.log("server is working on", PORT);

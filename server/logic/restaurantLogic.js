@@ -3,6 +3,30 @@ import restaurantModel from "../schemas/Restaurants.js";
 import orderSchema from "../schemas/Order.js";
 import jwt from "jsonwebtoken";
 
+export const restNumDishes = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const item = await orderSchema.count({ restEmail: email });
+    res.status(200).json(item);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const impactReportRest = async (req, res) => {
+  const { slug } = req.body;
+  console.log("slug", slug);
+
+  try {
+    const resp = await restaurantModel.findOne({
+      slug: slug,
+    });
+    res.status(201).send(resp);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const levelUp = async (req, res) => {
   const { id, completed } = req.body;
 
@@ -25,7 +49,15 @@ export const getOrders = async (req, res) => {
   const email = req.params.email;
 
   try {
-    const resp = await orderSchema.find({ restEmail: email, placed: true });
+    const resp = await orderSchema
+      .find({
+        restEmail: email,
+        placed: true,
+        date: {
+          $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+        },
+      })
+      .sort({ placedAt: "-1" });
     res.status(201).send(resp);
   } catch (err) {
     console.log(err);

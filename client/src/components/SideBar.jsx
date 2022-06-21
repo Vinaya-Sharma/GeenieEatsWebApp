@@ -11,13 +11,14 @@ import {
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "../context/stateContext";
+import { useEffect } from "react";
 
 const SideBar = ({ restaurant }) => {
-  const { isRest, isUser, userObj } = useStateContext();
+  const { isRest, isUser, userObj, restObj, userCheck } = useStateContext();
 
   const restElements = [
     {
-      name: "restaurants",
+      name: `${isRest ? "restaurants" : "/login"}`,
       disName: "Home",
       icon: faHouse,
     },
@@ -37,7 +38,7 @@ const SideBar = ({ restaurant }) => {
       icon: faBurger,
     },
     {
-      name: `myImpact/${restaurant?.name}`,
+      name: `impactReport/${restObj?.slug}`,
       disName: "Impact",
       icon: faEarthAmericas,
     },
@@ -45,17 +46,17 @@ const SideBar = ({ restaurant }) => {
 
   const userElements = [
     {
-      name: "Home",
+      name: `${isUser ? "/Home" : "/login"}`,
       disName: "Home",
       icon: faHouse,
     },
     {
-      name: "History",
+      name: `${isUser ? "/History" : "/login"}`,
       disName: "History",
       icon: faPizzaSlice,
     },
     {
-      name: `myImpact/${userObj.slug}`,
+      name: `${isUser ? `myImpact/${userObj?.slug}` : "/login"}`,
       disName: "Impact",
       icon: faEarthAmericas,
     },
@@ -90,27 +91,31 @@ const SideBar = ({ restaurant }) => {
                 </div>
               );
             })
-          : userElements.map((item) => {
-              return (
-                <div
-                  key={item.name}
-                  className="flex flex-col"
-                  onClick={() => setPage(item.name)}
-                >
+          : !isRest &&
+            userElements.map((item) => {
+              alert("mapping");
+              if (!isRest) {
+                return (
                   <div
-                    className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
+                    key={item.name}
+                    className="flex flex-col"
+                    onClick={() => setPage(item.name)}
                   >
-                    <NavLink to={item.name}>
-                      <FontAwesomeIcon
-                        color={page === item.name ? "teal" : "white"}
-                        className="fa-md"
-                        icon={item.icon}
-                      />
-                    </NavLink>
+                    <div
+                      className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
+                    >
+                      <NavLink to={item.name}>
+                        <FontAwesomeIcon
+                          color={page === item.name ? "teal" : "white"}
+                          className="fa-md"
+                          icon={item.icon}
+                        />
+                      </NavLink>
+                    </div>
+                    <p className="text-white text-sm mb-5">{item.disName}</p>
                   </div>
-                  <p className="text-white text-sm mb-5">{item.disName}</p>
-                </div>
-              );
+                );
+              }
             })}
         {!isRest && (
           <div

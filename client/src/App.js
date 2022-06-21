@@ -13,6 +13,8 @@ import RestLogin from "./components/auth/RestLogin";
 import RestHome from "./containers/RestHome";
 import { StateContext, useStateContext } from "./context/stateContext";
 import { Toaster } from "react-hot-toast";
+import RestImpact from "./components/restaurants/RestImpact";
+import ImpactHome from "./components/restaurants/ImpactHome";
 
 const App = () => {
   return (
@@ -25,6 +27,10 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/restaurants/*" element={<RestHome />} />
             <Route path="/restaurants/login" element={<RestLogin />} />
+            <Route
+              path="/restaurants/impactReport/:slug"
+              element={<ImpactHome />}
+            />
           </Routes>
         </StateContext>
       </BrowserRouter>

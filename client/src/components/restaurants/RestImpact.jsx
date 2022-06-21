@@ -14,19 +14,28 @@ import { PieChart } from "../charts/PieChart";
 import { Link } from "react-router-dom";
 import { LineChart } from "../charts/LineChart";
 
-const Orders = () => {
+const RestImpact = () => {
   const params = useParams();
-  const { isUser, theOrders, getOrders } = useStateContext();
+  const { isUser, theOrders } = useStateContext();
   const [usersDishes, setusersDishes] = useState(null);
   const [numberDishes, setnumberDishes] = useState(null);
   const [impactReportUser, setimpactReportUser] = useState({});
   const usersImpactSlug = params.slug;
+  let mostPopMeal = 0;
+  let popImg = "";
+  let mostPopMealImg = [];
+  let MealLabels;
+  let MealData;
+  let mealsThisWeek = 0;
+  let userName = [];
+  let userData = [];
 
   const getImpactReportUser = async () => {
     try {
-      const resp = await axios.post(`http://localhost:5000/impactReportUser`, {
+      const resp = await axios.post(`http://localhost:5000/impactReportRest`, {
         slug: usersImpactSlug,
       });
+      console.log("the rest", resp.data);
       setimpactReportUser(resp.data);
       impactReportUser && getCurrentUsersDishes(resp.data);
     } catch (err) {
@@ -37,7 +46,7 @@ const Orders = () => {
   const getCurrentUsersDishes = async (data) => {
     try {
       const resp = await axios.post(
-        `http://localhost:5000/history/${data.email}`
+        `http://localhost:5000/getOrders/${data.email}`
       );
       setusersDishes(resp.data);
       numDishes(data);
@@ -73,12 +82,24 @@ const Orders = () => {
 
     usersDishes && console.log("users dishes", usersDishes);
     for (let i = 0; i < usersDishes.length; i++) {
-      if (labels.includes(usersDishes[i].restName)) {
-        data[labels.indexOf(usersDishes[i].restName)] =
-          data[labels.indexOf(usersDishes[i].restName)] + 1;
+      if (labels.includes(usersDishes[i].itemName)) {
+        data[labels.indexOf(usersDishes[i].itemName)] =
+          data[labels.indexOf(usersDishes[i].itemName)] +
+          usersDishes[i].quantity;
       } else {
-        labels.push(String(usersDishes[i].restName));
-        data.push(1);
+        labels.push(String(usersDishes[i].itemName));
+        data.push(usersDishes[i].quantity);
+      }
+    }
+
+    for (let i = 0; i < usersDishes.length; i++) {
+      if (userName.includes(usersDishes[i].name)) {
+        userData[userName.indexOf(usersDishes[i].name)] =
+          userData[userName.indexOf(usersDishes[i].name)] +
+          usersDishes[i].quantity;
+      } else {
+        userName.push(String(usersDishes[i].name));
+        userData.push(usersDishes[i].quantity);
       }
     }
     mostPopStore();
@@ -88,7 +109,7 @@ const Orders = () => {
 
   const numDishes = async (data) => {
     try {
-      const resp = await axios.post("http://localhost:5000/numDishes", {
+      const resp = await axios.post("http://localhost:5000/restNumDishes", {
         email: data.email,
       });
       setnumberDishes(resp.data);
@@ -99,8 +120,7 @@ const Orders = () => {
 
   useEffect(() => {
     getImpactReportUser();
-    getOrders();
-  }, [usersImpactSlug]);
+  }, []);
 
   const revenue = () => {
     let theRev = 0;
@@ -112,15 +132,15 @@ const Orders = () => {
 
   const newRest = () => {
     let restaurants = [];
-
+    console.log("dishes", usersDishes);
     usersDishes?.forEach((dish) => {
-      restaurants.push(dish.restName);
+      restaurants.push(dish.email);
     });
 
     let uRestaurants = [...new Set(restaurants)];
     return uRestaurants.length;
   };
-  if (!impactReportUser)
+  if (!usersImpactSlug)
     return (
       <div className="bg-base w-full min-h-screen h-full py-16 px-10  flex">
         <div className="justify-center h-24 items-center flex gap-2 text-white">
@@ -138,12 +158,6 @@ const Orders = () => {
       </div>
     );
 
-  let mostPopMeal = 0;
-  let popImg = "";
-  let mostPopMealImg = [];
-  let MealLabels;
-  let MealData;
-  let mealsThisWeek = 0;
   const getMostPopMeal = () => {
     MealLabels = [];
     MealData = [];
@@ -166,22 +180,26 @@ const Orders = () => {
         mostPopMeal = MealData[i];
       }
       mealsThisWeek = mealsThisWeek + MealData[i];
+      if (mealsThisWeek > numberDishes) {
+        setnumberDishes(mealsThisWeek);
+      }
     }
+
     const num = MealData.indexOf(mostPopMeal);
     mostPopMeal = MealLabels[MealData.indexOf(mostPopMeal)];
     popImg = mostPopMealImg[num];
   };
 
-  let mostPop;
+  let mostPopUser;
   const mostPopStore = () => {
-    mostPop = 0;
+    mostPopUser = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      if (data[i] > mostPop) {
-        mostPop = data[i];
+    for (let i = 0; i < userData.length; i++) {
+      if (userData[i] > mostPopUser) {
+        mostPopUser = userData[i];
       }
     }
-    mostPop = labels[data.indexOf(mostPop)];
+    mostPopUser = userName[userData.indexOf(mostPopUser)];
   };
 
   return (
@@ -200,11 +218,11 @@ const Orders = () => {
               icon={faPlateWheat}
             />
           </div>
-          <p className="text-2xl mt-5 font-bold text-white ">
+          <p className="text-2xl mt-5 font-bold text-white">
             About {numberDishes}
           </p>
           <p className="text-md mt-2 text-stone-300 ">
-            Total Dishes Ordered With GeenieEats
+            Total Meals Saved With GeenieEats
           </p>
         </div>
         <div className="lg:w-3/12 mb-5 w-full mr-10 p-3 min-h-100 bg-dblue rounded-lg h-full">
@@ -216,10 +234,10 @@ const Orders = () => {
             />
           </div>
           <p className="text-2xl mt-5 font-bold text-white ">
-            ${revenue()} Of{" "}
+            ${revenue()} Worth{" "}
           </p>
           <p className="text-md mt-2 text-stone-300 ">
-            Relief Provided This Week
+            Of Food Saved This Week
           </p>
         </div>
         <div className="lg:w-3/12 mb-5 w-full p-3 min-h-100 bg-dblue rounded-lg h-full">
@@ -231,11 +249,9 @@ const Orders = () => {
             />
           </div>
           <p className="text-2xl mt-5 font-bold text-white ">
-            {newRest()} Different{" "}
+            {numberDishes * 1.5}lbs
           </p>
-          <p className="text-md mt-2 text-stone-300 ">
-            Restaurants Purchased From Recently
-          </p>
+          <p className="text-md mt-2 text-stone-300 ">Of Total Food Rescued</p>
         </div>
       </div>
       <hr className="my-5" />
@@ -243,7 +259,7 @@ const Orders = () => {
         {
           //most commonly ordered dish, most commonly ordered store,
           usersDishes && (
-            <div className="w-[99%] mb-32 sm:w-3/6 h-80 flex object-contain">
+            <div className="w-[99%] lg:w-2/6 mb-32 sm:w-3/6 h-80 flex object-contain">
               <div className="flex w-full h-full flex-col">
                 <p className="my-5 font-bold">Weekly Purchase Breakdown</p>
                 {usersDishes && getPieChartData()}
@@ -252,19 +268,24 @@ const Orders = () => {
           )
         }
         {
-          <div className="w-full h-full sm:w-3/6 gap-2 flex flex-col mb-5">
-            <p className="my-5 font-bold mb-5">🔍 Weekly Finds</p>
+          <div className="w-full lg:w-4/6 place-self-center self-center h-full sm:w-3/6 gap-2 flex flex-col mb-5">
+            <p className="mt-5 font-bold">🔍 Restaurant Info & Weekly Finds</p>
+            <div className="w-full flex flex-row flex-wrap mb-5 gap-3 ">
+              <div>🚗 You can find</div>
+              <div className="font-bold block lg:inline">
+                {usersDishes && usersDishes[0]?.restName} at
+              </div>
+              <div className="font-bold block lg:inline ">
+                {usersDishes && usersDishes[0]?.restLocation}{" "}
+              </div>
+            </div>
             <div className="w-full flex gap-3">
               🥘 Food Saved This Week:
               <span className="font-bold">{mealsThisWeek * 1.5}lbs</span>
             </div>
             <div className="w-full flex gap-3">
-              ⛑️ Total Food Rescued:
-              <span className="font-bold">{numberDishes * 1.5}lbs</span>
-            </div>
-            <div className="w-full flex gap-3">
-              🛍️ Most Popular Store:
-              <span className="font-bold">{mostPop}</span>
+              🛍️ Favourite Customer:
+              <span className="font-bold">{mostPopUser}</span>
             </div>
             <div className="w-full flex gap-3">
               🌮 Favourite Meal:
@@ -298,4 +319,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default RestImpact;

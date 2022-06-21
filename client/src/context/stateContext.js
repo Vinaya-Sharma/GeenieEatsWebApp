@@ -40,7 +40,32 @@ export const StateContext = ({ children }) => {
       setIsUser(null);
       setUserObj(null);
     } else {
-      if (window.location.toString().includes("restaurants")) {
+      if (window.location.toString().includes("impactReport")) {
+        //setting rest &7 customers
+        if (cookies.auth && cookies.email) {
+          setIsRest(null);
+          setRestObj(null);
+          setIsUser(cookies.email);
+          findUser();
+        } else if (isUser && userObj) {
+          setIsRest(null);
+          setRestObj(null);
+        } else if (
+          cookies.auth &&
+          cookies.emailr &&
+          window.location.toString().includes("restaurants")
+        ) {
+          setIsRest(cookies.emailr);
+          setIsUser(null);
+          setUserObj(null);
+          findRest();
+        } else if (isRest) {
+          setIsRest(isRest);
+          findRest();
+          setIsUser(null);
+          setUserObj(null);
+        }
+      } else if (window.location.toString().includes("restaurants")) {
         Navigator("/restaurants/login");
       } else {
         Navigator("/login");

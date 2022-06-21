@@ -8,6 +8,7 @@ import RestProf from "../components/RestProf";
 import AddPage from "../components/restaurants/AddPage";
 import Orders from "../components/restaurants/Orders";
 import Cart from "../components/customers/Cart";
+import RestImpact from "../components/restaurants/RestImpact";
 
 const HeroRouter = ({ user, restaurants, restaurant }) => {
   return (
@@ -28,6 +29,7 @@ const HeroRouter = ({ user, restaurants, restaurant }) => {
         path="/order/:name"
         element={<RestProf user={user} restaurant={restaurant} />}
       />
+      <Route path="/impactReport/:slug" element={<RestImpact />} />
       <Route
         path="/cart"
         element={<Cart user={user} restaurant={restaurant} />}
@@ -47,6 +49,7 @@ const HeroRouter = ({ user, restaurants, restaurant }) => {
         path="/restaurants/order/:name"
         element={<RestProf user={user} restaurant={restaurant} />}
       />
+
       <Route path="/manageMeals" element={<AddPage />} />
       <Route path="/orders" element={<Orders />} />
     </Routes>
