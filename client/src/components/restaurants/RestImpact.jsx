@@ -180,9 +180,10 @@ const RestImpact = () => {
         mostPopMeal = MealData[i];
       }
       mealsThisWeek = mealsThisWeek + MealData[i];
-      if (mealsThisWeek > numberDishes) {
-        setnumberDishes(mealsThisWeek);
-      }
+    }
+
+    if (mealsThisWeek > numberDishes) {
+      setnumberDishes(mealsThisWeek);
     }
 
     const num = MealData.indexOf(mostPopMeal);

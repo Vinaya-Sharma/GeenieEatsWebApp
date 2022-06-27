@@ -15,6 +15,18 @@ import { useEffect } from "react";
 
 const SideBar = ({ restaurant }) => {
   const { isRest, isUser, userObj, restObj, userCheck } = useStateContext();
+  const [toUse, settoUse] = useState(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isRest) {
+        settoUse(restElements);
+      } else if (isUser) {
+        settoUse(userElements);
+      }
+    }, 2000);
+    setPage(noUser);
+  }, [isUser, isRest]);
 
   const restElements = [
     {
@@ -46,17 +58,35 @@ const SideBar = ({ restaurant }) => {
 
   const userElements = [
     {
-      name: `${isUser ? "/Home" : "/login"}`,
+      name: `Home`,
       disName: "Home",
       icon: faHouse,
     },
     {
-      name: `${isUser ? "/History" : "/login"}`,
+      name: "History",
       disName: "History",
       icon: faPizzaSlice,
     },
     {
-      name: `${isUser ? `myImpact/${userObj?.slug}` : "/login"}`,
+      name: `myImpact/${userObj?.slug}`,
+      disName: "My Impact",
+      icon: faEarthAmericas,
+    },
+  ];
+
+  const noUser = [
+    {
+      name: `login`,
+      disName: "Home",
+      icon: faHouse,
+    },
+    {
+      name: `login`,
+      disName: `History`,
+      icon: faPizzaSlice,
+    },
+    {
+      name: `myImpact/${userObj?.slug}`,
       disName: "Impact",
       icon: faEarthAmericas,
     },
@@ -65,58 +95,36 @@ const SideBar = ({ restaurant }) => {
   const { logout } = useStateContext();
   const Navigate = useNavigate();
   const [page, setPage] = useState("Home");
+  if (!toUse) return;
   return (
     <div className="min-w-100 md:min-w-0 md:w-full relative h-screen flex flex-col place-content-center align-center bg-dblue text-center">
       <div className="w-full h-screen justify-center text-center center place-content-center align-center place-self-center flex flex-col">
-        {isRest
-          ? restElements.map((item) => {
-              return (
+        {toUse?.map((item) => {
+          return (
+            <div
+              key={item.name}
+              className="flex flex-col"
+              onClick={() => setPage(item.name)}
+            >
+              <div
+                className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
+              >
                 <div
-                  key={item.name}
-                  className="flex flex-col"
-                  onClick={() => setPage(item.name)}
+                  onClick={() =>
+                    Navigate(`${isRest ? "/restaurants/" : "/"}${item.name}`)
+                  }
                 >
-                  <div
-                    className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
-                  >
-                    <div onClick={() => Navigate(`/restaurants/${item.name}`)}>
-                      <FontAwesomeIcon
-                        color={page === item.name ? "teal" : "white"}
-                        className="fa-md"
-                        icon={item.icon}
-                      />
-                    </div>
-                  </div>
-                  <p className="text-white text-sm mb-5">{item.disName}</p>
+                  <FontAwesomeIcon
+                    color={page === item.name ? "teal" : "white"}
+                    className="fa-md"
+                    icon={item.icon}
+                  />
                 </div>
-              );
-            })
-          : !isRest &&
-            userElements.map((item) => {
-              alert("mapping");
-              if (!isRest) {
-                return (
-                  <div
-                    key={item.name}
-                    className="flex flex-col"
-                    onClick={() => setPage(item.name)}
-                  >
-                    <div
-                      className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
-                    >
-                      <NavLink to={item.name}>
-                        <FontAwesomeIcon
-                          color={page === item.name ? "teal" : "white"}
-                          className="fa-md"
-                          icon={item.icon}
-                        />
-                      </NavLink>
-                    </div>
-                    <p className="text-white text-sm mb-5">{item.disName}</p>
-                  </div>
-                );
-              }
-            })}
+              </div>
+              <p className="text-white text-sm mb-5">{item.disName}</p>
+            </div>
+          );
+        })}
         {!isRest && (
           <div
             className="lg:hidden flex flex-col"

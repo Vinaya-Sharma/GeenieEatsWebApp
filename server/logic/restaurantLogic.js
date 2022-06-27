@@ -6,8 +6,12 @@ import jwt from "jsonwebtoken";
 export const restNumDishes = async (req, res) => {
   const { email } = req.body;
   try {
-    const item = await orderSchema.count({ restEmail: email });
-    res.status(200).json(item);
+    const item = await orderSchema.aggregate([
+      { $group: { _id: "$restEmail", sum_val: { $sum: "$quantity" } } },
+    ]);
+    const itemC = await orderSchema.count({ restEmail: email });
+    const restNum = item.filter((value) => value._id == email);
+    res.status(200).json(restNum[0].sum_val);
   } catch (err) {
     console.log(err);
   }

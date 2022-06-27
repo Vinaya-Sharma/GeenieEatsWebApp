@@ -7,8 +7,15 @@ import jwt from "jsonwebtoken";
 export const numDishes = async (req, res) => {
   const { email } = req.body;
   try {
-    const item = await orderModel.count({ email });
-    res.status(200).json(item);
+    const item = await orderModel.aggregate([
+      { $group: { _id: "$email", sum_val: { $sum: "$quantity" } } },
+    ]);
+    let rest = item.filter((value) => value._id == email);
+    let restNum = rest[0].sum_val;
+    if (!restNum) {
+      restNum = 0;
+    }
+    res.status(200).json(restNum);
   } catch (err) {
     console.log(err);
   }
@@ -73,7 +80,7 @@ export const history = async (req, res) => {
       .find({
         email: email,
         placed: true,
-        date: {
+        placedAt: {
           $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
         },
       })
