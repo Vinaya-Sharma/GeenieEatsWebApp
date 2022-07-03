@@ -183,6 +183,10 @@ app.post("/impactReportUser", impactReportUser);
 app.post("/impactReportRest", impactReportRest);
 app.post("/restNumDishes", restNumDishes);
 
+if (process.env.NODE_ENV == 'production'){
+  app.use(express.static('client/build'))
+}
+
 app.listen(PORT, () => {
   console.log("server is working on", PORT);
 });
