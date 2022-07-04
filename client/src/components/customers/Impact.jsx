@@ -27,12 +27,9 @@ const Orders = () => {
   const getImpactReportUser = async () => {
     console.log("slug", usersImpactSlug);
     try {
-      const resp = await axios.post(
-        `http://localhost:${process.env.PORT}/impactReportUser`,
-        {
-          slug: usersImpactSlug,
-        }
-      );
+      const resp = await axios.post(`/impactReportUser`, {
+        slug: usersImpactSlug,
+      });
       setimpactReportUser(resp.data);
       impactReportUser && getCurrentUsersDishes(resp.data);
     } catch (err) {
@@ -42,9 +39,7 @@ const Orders = () => {
 
   const getCurrentUsersDishes = async (data) => {
     try {
-      const resp = await axios.post(
-        `http://localhost:${process.env.PORT}/history/${data.email}`
-      );
+      const resp = await axios.post(`/history/${data.email}`);
       setusersDishes(resp.data);
       numDishes(data);
       revenue();
@@ -93,12 +88,9 @@ const Orders = () => {
 
   const numDishes = async (data) => {
     try {
-      const resp = await axios.post(
-        `http://localhost:${process.env.PORT}/numDishes`,
-        {
-          email: data.email,
-        }
-      );
+      const resp = await axios.post(`/numDishes`, {
+        email: data.email,
+      });
       setnumberDishes(resp.data);
     } catch (err) {
       console.log(err);

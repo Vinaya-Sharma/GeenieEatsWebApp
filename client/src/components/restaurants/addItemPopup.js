@@ -27,19 +27,16 @@ const AddItemPopup = ({
 
     if (edit) {
       try {
-        const resp = axios.put(
-          `http://localhost:${process.env.PORT}/updateMeal`,
-          {
-            email: restEmail,
-            id: edit,
-            name,
-            description,
-            ingredients,
-            cost,
-            prepTime,
-            img,
-          }
-        );
+        const resp = axios.put(`/updateMeal`, {
+          email: restEmail,
+          id: edit,
+          name,
+          description,
+          ingredients,
+          cost,
+          prepTime,
+          img,
+        });
         setAddPopup(false);
         setName("");
         setDescription("");
@@ -53,17 +50,14 @@ const AddItemPopup = ({
       }
     } else {
       try {
-        const resp = await axios.post(
-          `http://localhost:${process.env.PORT}/addDish/${restEmail}`,
-          {
-            name,
-            description,
-            ingredients,
-            cost,
-            prepTime,
-            img,
-          }
-        );
+        const resp = await axios.post(`/addDish/${restEmail}`, {
+          name,
+          description,
+          ingredients,
+          cost,
+          prepTime,
+          img,
+        });
 
         if (resp.status === 201) {
           setAddPopup(false);

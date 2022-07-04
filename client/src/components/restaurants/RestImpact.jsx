@@ -33,7 +33,7 @@ const RestImpact = () => {
 
   const getImpactReportUser = async () => {
     try {
-      const resp = await axios.post(`http://localhost:5000/impactReportRest`, {
+      const resp = await axios.post(`/impactReportRest`, {
         slug: usersImpactSlug,
       });
       setimpactReportUser(resp.data);
@@ -45,9 +45,7 @@ const RestImpact = () => {
 
   const getCurrentUsersDishes = async (data) => {
     try {
-      const resp = await axios.post(
-        `http://localhost:5000/getOrders/${data.email}`
-      );
+      const resp = await axios.post(`/getOrders/${data.email}`);
       setusersDishes(resp.data);
       numDishes(data);
       revenue();
@@ -109,7 +107,7 @@ const RestImpact = () => {
 
   const numDishes = async (data) => {
     try {
-      const resp = await axios.post("http://localhost:5000/restNumDishes", {
+      const resp = await axios.post("/restNumDishes", {
         email: data.email,
       });
       setnumberDishes(resp.data);

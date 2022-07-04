@@ -26,7 +26,7 @@ const History = ({ user }) => {
     if (orderId && !orderId.includes("/History")) {
       try {
         await axios
-          .post(`http://localhost:${process.env.PORT}/placeStripeOrder`, {
+          .post(`/placeStripeOrder`, {
             orderId: orderId,
             user: isUser,
           })
