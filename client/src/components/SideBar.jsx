@@ -24,7 +24,7 @@ const SideBar = ({ restaurant }) => {
       } else if (isUser) {
         settoUse(userElements);
       }
-    }, 500);
+    }, 5);
     setPage(noUser);
   }, [isUser, isRest]);
 
