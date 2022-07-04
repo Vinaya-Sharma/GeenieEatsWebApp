@@ -186,9 +186,6 @@ if (process.env.NODE_ENV === "production") {
   console.log("working alright");
 }
 
-app.use(express.static("client/build"));
-console.log("working alright");
-
 app.listen(PORT, () => {
   console.log("server is working on", PORT);
 });
