@@ -181,7 +181,7 @@ app.post("/impactReportUser", impactReportUser);
 app.post("/impactReportRest", impactReportRest);
 app.post("/restNumDishes", restNumDishes);
 
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   console.log("working alright");
 }
