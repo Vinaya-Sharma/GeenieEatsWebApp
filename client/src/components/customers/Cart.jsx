@@ -150,8 +150,9 @@ const Cart = ({ user }) => {
     <div className="min-h-screen overflow-scroll w-full  bg-base lg:bg-dblue p-12  max-h-screen h-full flex flex-col">
       {cartItems.length > 0 ? (
         <div className="min-h-screen overflow-scroll w-full  bg-base lg:bg-dblue  max-h-screen h-full flex flex-col">
-          <p className="font-sm text-white ">Order from {user?.name} 👨‍🍳</p>
-          <hr className="text-white bg-white flex min-w-24 h-2 w-full p-2" />
+          <p className="font-sm tracking-wider text-white border-b-2 pb-1 border-white ">
+            Order from {user?.name} 👨‍🍳
+          </p>
 
           <div className="flex flex-col w-full justify-center place-self-center center align-center mt-10">
             <div className="flex-row flex">

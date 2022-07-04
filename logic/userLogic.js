@@ -23,13 +23,11 @@ export const numDishes = async (req, res) => {
 
 export const impactReportUser = async (req, res) => {
   const { slug } = req.body;
-  console.log(slug);
+
   try {
     const resp = await userModel.findOne({
       slug: slug,
     });
-    console.log("sluf", slug);
-    console.log("user", resp);
     res.status(201).send(resp);
   } catch (err) {
     console.log(err);
@@ -48,7 +46,7 @@ export const checkAvailability = async (req, res) => {
 
 export const placeStripeOrder = async (req, res) => {
   const { orderId } = req.body;
-  console.log(orderId);
+
   try {
     await orderModel.updateMany(
       { stripeId: orderId, placed: false },
@@ -86,8 +84,6 @@ export const history = async (req, res) => {
         },
       })
       .sort({ placedAt: "-1" });
-    console.log("past ", resp);
-    console.log("emauk ", email);
     res.status(201).send(resp);
   } catch (err) {
     console.log(err);
@@ -146,7 +142,7 @@ export const deleteCartItem = async (req, res) => {
     await orderModel.deleteOne({ _id: id });
     res.status(201).send("deletion successfull");
   } catch (err) {
-    console.log("could not remove from cart");
+    res.status(404).send("cant delete items");
   }
 };
 
@@ -223,7 +219,6 @@ export const findUser = async (req, res) => {
 export const signUpUser = async (req, res) => {
   const { email, password, name, orders, pastOrders } = req.body;
   const theuser = new userModel(req.body);
-  console.log(req.body);
 
   try {
     const user = await theuser.save();

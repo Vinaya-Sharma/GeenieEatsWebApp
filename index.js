@@ -115,11 +115,9 @@ app.post("/placeStripeOrder", async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(orderId);
 
     const status = session.payment_status;
-    console.log("user", user);
     //if status === paid update db --> set every item by the user to be paid
     if (status == "paid") {
       try {
-        console.log("paidddd");
         await orderModel.updateMany(
           { email: user, placed: false },
           {
@@ -183,8 +181,9 @@ app.post("/impactReportUser", impactReportUser);
 app.post("/impactReportRest", impactReportRest);
 app.post("/restNumDishes", restNumDishes);
 
-if (process.env.NODE_ENV == 'production'){
-  app.use(express.static('client/build'))
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("client/build"));
+  console.log("working alright");
 }
 
 app.listen(PORT, () => {

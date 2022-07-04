@@ -19,7 +19,6 @@ export const restNumDishes = async (req, res) => {
 
 export const impactReportRest = async (req, res) => {
   const { slug } = req.body;
-  console.log("slug", slug);
 
   try {
     const resp = await restaurantModel.findOne({
