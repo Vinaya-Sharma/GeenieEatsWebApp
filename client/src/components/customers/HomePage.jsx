@@ -16,7 +16,7 @@ const HomePage = () => {
   }, [isUser]);
 
   return (
-    <div className="h-full min-h-screen w-full bg-base p-20">
+    <div className="h-full min-h-screen w-full bg-base p-10 sm:p-20">
       <div className="flex flex-col md:flex-row w-full justify-center">
         <div className={`flex flex-col ${restObj ? "w-full" : "w-3/6"}`}>
           <p className="text-2xl font-bold text-white tracking-widest">
