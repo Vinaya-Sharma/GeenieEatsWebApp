@@ -9,10 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useStateContext } from "../../context/stateContext";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { PieChart } from "../charts/PieChart";
 import { Link } from "react-router-dom";
 import { LineChart } from "../charts/LineChart";
+import construction from "../../assets/construction.png";
 
 const RestImpact = () => {
   const params = useParams();
@@ -35,7 +36,6 @@ const RestImpact = () => {
       const resp = await axios.post(`http://localhost:5000/impactReportRest`, {
         slug: usersImpactSlug,
       });
-      console.log("the rest", resp.data);
       setimpactReportUser(resp.data);
       impactReportUser && getCurrentUsersDishes(resp.data);
     } catch (err) {
@@ -182,10 +182,6 @@ const RestImpact = () => {
       mealsThisWeek = mealsThisWeek + MealData[i];
     }
 
-    if (mealsThisWeek > numberDishes) {
-      setnumberDishes(mealsThisWeek);
-    }
-
     const num = MealData.indexOf(mostPopMeal);
     mostPopMeal = MealLabels[MealData.indexOf(mostPopMeal)];
     popImg = mostPopMealImg[num];
@@ -250,70 +246,87 @@ const RestImpact = () => {
             />
           </div>
           <p className="text-2xl mt-5 font-bold text-white ">
-            {numberDishes * 1.5}lbs
+            {impactReportUser && impactReportUser?.dishes?.length} dishes
           </p>
-          <p className="text-md mt-2 text-stone-300 ">Of Total Food Rescued</p>
+          <p className="text-md mt-2 text-stone-300 ">
+            Currently available on GeenieEats
+          </p>
         </div>
       </div>
       <hr className="my-5" />
-      <div className="w-11/12screen flex-col sm:flex-row md:w-full flex gap-10">
-        {
-          //most commonly ordered dish, most commonly ordered store,
-          usersDishes && (
-            <div className="w-[99%] lg:w-2/6 mb-32 sm:w-3/6 h-80 flex object-contain">
-              <div className="flex w-full h-full flex-col">
-                <p className="my-5 font-bold">Weekly Purchase Breakdown</p>
-                {usersDishes && getPieChartData()}
+      {usersDishes?.length > 0 ? (
+        <div>
+          <div className="w-11/12screen flex-col sm:flex-row md:w-full flex gap-10">
+            {
+              //most commonly ordered dish, most commonly ordered store,
+              usersDishes && (
+                <div className="w-[99%] lg:w-3/6 mb-32 sm:w-3/6 h-80 flex object-contain">
+                  <div className="flex w-full h-full flex-col">
+                    <p className="my-5 font-bold">
+                      {impactReportUser.name}'s Weekly Meal Popularity Breakdown
+                    </p>
+                    {usersDishes && getPieChartData()}
+                  </div>
+                </div>
+              )
+            }
+            {
+              <div className="w-full lg:w-4/6  h-full sm:w-3/6 gap-2 flex flex-col mb-5">
+                <p className="mt-5 border-white border-b-2 w-auto pb-2 font-bold">
+                  Restaurant Info & Weekly Finds
+                </p>
+                <div className="w-full flex flex-row flex-wrap gap-3 ">
+                  <div>🚗 You can find</div>
+                  <div className="font-bold block lg:inline">
+                    {usersDishes && usersDishes[0]?.restName} at
+                  </div>
+                  <div className="font-bold block lg:inline ">
+                    {usersDishes && usersDishes[0]?.restLocation}{" "}
+                  </div>
+                </div>
+                <div className="w-full flex gap-3">
+                  🥘 Food Saved This Week:
+                  <span className="font-bold">{mealsThisWeek * 1.5}lbs</span>
+                </div>
+                <div className="w-full flex gap-3">
+                  🛍️ Favourite Customer:
+                  <span className="font-bold">{mostPopUser}</span>
+                </div>
+                <div className="w-full flex gap-3">
+                  🌮 Favourite Meal:
+                  <span className="font-bold">{mostPopMeal}</span>
+                </div>
+                <div className="w-44 place-self-center h-44 relative mt-12 flex">
+                  <FontAwesomeIcon
+                    className="w-20 h-20 -rotate-45 text-yellow-200 absolute -top-10 -left-5"
+                    icon={faCrown}
+                  />
+                  <img
+                    className="w-full h-full object-cover flex rounded-full"
+                    src={popImg}
+                  />
+                </div>
               </div>
-            </div>
-          )
-        }
-        {
-          <div className="w-full lg:w-4/6 place-self-center self-center h-full sm:w-3/6 gap-2 flex flex-col mb-5">
-            <p className="mt-5 font-bold">🔍 Restaurant Info & Weekly Finds</p>
-            <div className="w-full flex flex-row flex-wrap mb-5 gap-3 ">
-              <div>🚗 You can find</div>
-              <div className="font-bold block lg:inline">
-                {usersDishes && usersDishes[0]?.restName} at
-              </div>
-              <div className="font-bold block lg:inline ">
-                {usersDishes && usersDishes[0]?.restLocation}{" "}
-              </div>
-            </div>
-            <div className="w-full flex gap-3">
-              🥘 Food Saved This Week:
-              <span className="font-bold">{mealsThisWeek * 1.5}lbs</span>
-            </div>
-            <div className="w-full flex gap-3">
-              🛍️ Favourite Customer:
-              <span className="font-bold">{mostPopUser}</span>
-            </div>
-            <div className="w-full flex gap-3">
-              🌮 Favourite Meal:
-              <span className="font-bold">{mostPopMeal}</span>
-            </div>
-            <div className="w-44 place-self-center h-44 relative mt-12 flex">
-              <FontAwesomeIcon
-                className="w-20 h-20 -rotate-45 text-yellow-200 absolute -top-10 -left-5"
-                icon={faCrown}
-              />
-              <img
-                className="w-full h-full object-cover flex rounded-full"
-                src={popImg}
-              />
-            </div>
+            }
           </div>
-        }
-      </div>
-      {usersDishes && (
-        <div className="w-11/12screen md:w-full mb-5 mt-12 md:mt-20 ">
-          <p>
-            Pounds Of Food Saved -{" "}
-            <span className="font-bold">
-              Week Of {String(prevMonday.toDateString())}{" "}
-            </span>
-          </p>
-          {getLineGraphData()}
+          {usersDishes && (
+            <div className="w-11/12screen md:w-full mb-5 mt-12 md:mt-20 ">
+              <p>
+                Pounds Of Food Saved -{" "}
+                <span className="font-bold">
+                  Week Of {String(prevMonday.toDateString())}{" "}
+                </span>
+              </p>
+              {getLineGraphData()}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div>
+          <p>currently unavailable...</p>
+          <div className="w-full h-80 flex">
+            <img className="w-full h-full object-contain " src={construction} />
+          </div>
         </div>
       )}
     </div>
