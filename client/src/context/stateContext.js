@@ -79,10 +79,13 @@ export const StateContext = ({ children }) => {
 
   const loginFunc = async (email, password) => {
     try {
-      const resp = await axios.post("http://localhost:5000/login", {
-        email,
-        password,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/login`,
+        {
+          email,
+          password,
+        }
+      );
       if (resp.status == 201) {
         setRestObj(null);
         setIsRest(null);
@@ -102,13 +105,16 @@ export const StateContext = ({ children }) => {
 
   const signupFunc = async (email, name, password) => {
     try {
-      const resp = await axios.post("http://localhost:5000/signup", {
-        name,
-        email,
-        password,
-        orders: [],
-        pastOrders: [],
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/signup`,
+        {
+          name,
+          email,
+          password,
+          orders: [],
+          pastOrders: [],
+        }
+      );
 
       if (resp.status === 200) {
         setRestObj(null);
@@ -127,10 +133,13 @@ export const StateContext = ({ children }) => {
 
   const restLoginFunc = async (email, password) => {
     try {
-      const resp = await axios.post("http://localhost:5000/restaurant/login", {
-        email,
-        password,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/restaurant/login`,
+        {
+          email,
+          password,
+        }
+      );
 
       if (resp.status === 201) {
         setIsRest(resp.data.rest.email);
@@ -158,15 +167,18 @@ export const StateContext = ({ children }) => {
     logo
   ) => {
     try {
-      const resp = await axios.post("http://localhost:5000/restaurant/signup", {
-        name,
-        email,
-        password,
-        website,
-        location,
-        img,
-        logo,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/restaurant/signup`,
+        {
+          name,
+          email,
+          password,
+          website,
+          location,
+          img,
+          logo,
+        }
+      );
 
       if (resp.status === 200) {
         setIsRest(resp.data.rest.email);
@@ -184,7 +196,9 @@ export const StateContext = ({ children }) => {
 
   const getRest = async () => {
     try {
-      const resp = await axios.get("http://localhost:5000/findRestaurants");
+      const resp = await axios.get(
+        `http://localhost:${process.env.PORT}/findRestaurants`
+      );
       setRestaurants(resp.data);
     } catch (err) {
       console.log(err);
@@ -193,9 +207,12 @@ export const StateContext = ({ children }) => {
 
   const findUser = async () => {
     try {
-      const resp = await axios.post("http://localhost:5000/findUser", {
-        email: isUser,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/findUser`,
+        {
+          email: isUser,
+        }
+      );
       setUserObj(resp.data);
     } catch (err) {
       console.log("user not found");
@@ -206,9 +223,12 @@ export const StateContext = ({ children }) => {
 
   const findRest = async () => {
     try {
-      const resp = await axios.post("http://localhost:5000/findTheRestaurant", {
-        email: isRest,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/findTheRestaurant`,
+        {
+          email: isRest,
+        }
+      );
       resp && setRestObj(resp.data);
     } catch (err) {
       console.log("user not found");
@@ -217,9 +237,12 @@ export const StateContext = ({ children }) => {
 
   const getCartItems = async () => {
     try {
-      const resp = await axios.post("http://localhost:5000/getCartItems", {
-        email: isUser,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/getCartItems`,
+        {
+          email: isUser,
+        }
+      );
 
       setCartItems(resp.data);
     } catch (err) {
@@ -229,7 +252,9 @@ export const StateContext = ({ children }) => {
 
   const getOrders = async () => {
     try {
-      const resp = await axios.post(`http://localhost:5000/history/${isUser}`);
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/history/${isUser}`
+      );
       settheOrders(
         resp.data.sort((a, b) => {
           if (a.completed > b.completed) return -1;

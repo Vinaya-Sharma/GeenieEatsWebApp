@@ -28,11 +28,14 @@ const AddPage = () => {
   const updateVisibility = async (meal) => {
     const available = !meal.available;
     try {
-      await axios.put("http://localhost:5000/updateAvailability", {
-        email: restObj.email,
-        id: meal._id,
-        available,
-      });
+      await axios.put(
+        `http://localhost:${process.env.PORT}/updateAvailability`,
+        {
+          email: restObj.email,
+          id: meal._id,
+          available,
+        }
+      );
       setVisibility(!visibility);
     } catch (err) {
       console.log(err);
@@ -55,10 +58,13 @@ const AddPage = () => {
 
   const deleteMeal = async (meal) => {
     try {
-      const resp = await axios.post("http://localhost:5000/deleteDish", {
-        id: meal._id,
-        email: restObj.email,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/deleteDish`,
+        {
+          id: meal._id,
+          email: restObj.email,
+        }
+      );
       setVisibility(!visibility);
     } catch (err) {
       console.log(err);
@@ -78,9 +84,12 @@ const AddPage = () => {
 
   const findMeals = async () => {
     try {
-      const resp = await axios.post("http://localhost:5000/findDishes", {
-        email: restObj.email,
-      });
+      const resp = await axios.post(
+        `http://localhost:${process.env.PORT}/findDishes`,
+        {
+          email: restObj.email,
+        }
+      );
       setMeals(resp?.data?.dishes ? resp.data.dishes : "");
     } catch (err) {
       console.log(err);

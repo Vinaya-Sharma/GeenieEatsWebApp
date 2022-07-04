@@ -25,7 +25,7 @@ const Cart = ({ user }) => {
       setCartItems([]);
       toast.success("Order placed!");
       const resp = await axios.put(
-        `http://localhost:5000/placeOrder/${isUser}`,
+        `http://localhost:${process.env.PORT}/placeOrder/${isUser}`,
         {
           placed: true,
           placedAt: new Date(),
@@ -73,7 +73,7 @@ const Cart = ({ user }) => {
     for (let i = 0; i < cartItems.length; i++) {
       try {
         const resp = await axios.post(
-          `http://localhost:5000/checkAvailability`,
+          `http://localhost:${process.env.PORT}/checkAvailability`,
           { itemId: cartItems[i].itemId }
         );
         const theItem = resp.data.filter(
@@ -103,7 +103,7 @@ const Cart = ({ user }) => {
 
   const stripeCheckout = async () => {
     const theResp = await axios.post(
-      `http://localhost:5000/create-checkout-session`,
+      `http://localhost:${process.env.PORT}/create-checkout-session`,
       cartItems
     );
     const theStripeId = theResp.data.id ? theResp.data.id : "0";
@@ -122,9 +122,12 @@ const Cart = ({ user }) => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/updateQuantity/${id}`, {
-        quantity: value,
-      });
+      await axios.put(
+        `http://localhost:${process.env.PORT}/updateQuantity/${id}`,
+        {
+          quantity: value,
+        }
+      );
       getCartItems();
     } catch (err) {
       console.log(err);
@@ -133,7 +136,7 @@ const Cart = ({ user }) => {
 
   const deleteCartItem = async (item) => {
     try {
-      await axios.post("http://localhost:5000/deleteCartItem", {
+      await axios.post(`http://localhost:${process.env.PORT}/deleteCartItem`, {
         id: item._id,
       });
       getCartItems();
