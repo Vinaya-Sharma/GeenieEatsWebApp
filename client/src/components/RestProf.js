@@ -22,7 +22,7 @@ const RestProf = ({ restaurant, user }) => {
       );
     } else {
       try {
-        await axios.post("http://localhost:5000/addToCart", {
+        await axios.post("/addToCart", {
           name: user.name,
           email: user.email,
           itemName: item.name,
@@ -44,7 +44,7 @@ const RestProf = ({ restaurant, user }) => {
 
   const findMeals = async () => {
     try {
-      const resp = await axios.post("http://localhost:5000/findMeals", {
+      const resp = await axios.post("/findMeals", {
         name,
       });
       resp && setMeals(resp.data.dishes);
@@ -55,7 +55,7 @@ const RestProf = ({ restaurant, user }) => {
 
   const findRestaurant = async () => {
     try {
-      const resp = await axios.post("http://localhost:5000/findRestaurant", {
+      const resp = await axios.post("/findRestaurant", {
         name,
       });
       resp && setThisRestaurant(resp.data);

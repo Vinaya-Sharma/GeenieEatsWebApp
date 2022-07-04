@@ -37,10 +37,9 @@ const Cart = ({ user }) => {
   const placeWithoutPaying = async () => {
     for (let i = 0; i < cartItems.length; i++) {
       try {
-        const resp = await axios.post(
-          `http://localhost:${process.env.PORT}/checkAvailability`,
-          { itemId: cartItems[i].itemId }
-        );
+        const resp = await axios.post(`/checkAvailability`, {
+          itemId: cartItems[i].itemId,
+        });
         const theItem = resp.data.filter(
           (dish) => dish._id == cartItems[i].itemId
         );
@@ -69,10 +68,9 @@ const Cart = ({ user }) => {
   const checkStripeCart = async () => {
     for (let i = 0; i < cartItems.length; i++) {
       try {
-        const resp = await axios.post(
-          `http://localhost:${process.env.PORT}/checkAvailability`,
-          { itemId: cartItems[i].itemId }
-        );
+        const resp = await axios.post(`/checkAvailability`, {
+          itemId: cartItems[i].itemId,
+        });
         const theItem = resp.data.filter(
           (dish) => dish._id == cartItems[i].itemId
         );
@@ -99,10 +97,7 @@ const Cart = ({ user }) => {
   };
 
   const stripeCheckout = async () => {
-    const theResp = await axios.post(
-      `http://localhost:${process.env.PORT}/create-checkout-session`,
-      cartItems
-    );
+    const theResp = await axios.post(`/create-checkout-session`, cartItems);
     const theStripeId = theResp.data.id ? theResp.data.id : "0";
     //sends user to success or fail url
     window.location = theResp.data.url;
@@ -119,12 +114,9 @@ const Cart = ({ user }) => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:${process.env.PORT}/updateQuantity/${id}`,
-        {
-          quantity: value,
-        }
-      );
+      await axios.put(`/updateQuantity/${id}`, {
+        quantity: value,
+      });
       getCartItems();
     } catch (err) {
       console.log(err);
@@ -133,7 +125,7 @@ const Cart = ({ user }) => {
 
   const deleteCartItem = async (item) => {
     try {
-      await axios.post(`http://localhost:${process.env.PORT}/deleteCartItem`, {
+      await axios.post(`/deleteCartItem`, {
         id: item._id,
       });
       getCartItems();
