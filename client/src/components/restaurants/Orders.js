@@ -46,7 +46,7 @@ const Orders = () => {
 
     if (order.completed !== "completed") {
       try {
-        await axios.put(`http://localhost:${process.env.PORT}/levelUp`, {
+        await axios.put("http://localhost:5000/levelUp", {
           id: order._id,
           completed: level,
         });
@@ -59,7 +59,7 @@ const Orders = () => {
   const getOrders = async () => {
     try {
       const resp = await axios.post(
-        `http://localhost:${process.env.PORT}/getOrders/${restObj.email}`
+        `http://localhost:5000/getOrders/${restObj.email}`
       );
       const sorted = resp.data.sort((a, b) => {
         if (a.completed > b.completed) return -1;

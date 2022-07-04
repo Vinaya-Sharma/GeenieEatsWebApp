@@ -24,13 +24,10 @@ const Cart = ({ user }) => {
     try {
       setCartItems([]);
       toast.success("Order placed!");
-      const resp = await axios.put(
-        `http://localhost:${process.env.PORT}/placeOrder/${isUser}`,
-        {
-          placed: true,
-          placedAt: new Date(),
-        }
-      );
+      const resp = await axios.put(`/placeOrder/${isUser}`, {
+        placed: true,
+        placedAt: new Date(),
+      });
       getCartItems();
     } catch (err) {
       console.log(err);
@@ -41,7 +38,7 @@ const Cart = ({ user }) => {
     for (let i = 0; i < cartItems.length; i++) {
       try {
         const resp = await axios.post(
-          `http://localhost:5000/checkAvailability`,
+          `http://localhost:${process.env.PORT}/checkAvailability`,
           { itemId: cartItems[i].itemId }
         );
         const theItem = resp.data.filter(
