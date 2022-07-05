@@ -248,7 +248,7 @@ export const StateContext = ({ children }) => {
     setUserObj(null);
     localStorage.removeItem("email", { path: "/" });
     localStorage.removeItem("auth", { path: "/" });
-    localStorage.removeItem("email", { path: "/restaurants" });
+    localStorage.removeItem("emailr", { path: "/restaurants" });
     localStorage.removeItem("auth", { path: "/restaurants" });
     Navigator("/login");
   };

@@ -25,6 +25,9 @@ const SideBar = ({ restaurant }) => {
     setTimeout(() => {
       if (isRest) {
         settoUse(restElements);
+        if (!restObj) {
+          window.location.reload();
+        }
       } else if (isUser) {
         settoUse(userElements);
       } else {

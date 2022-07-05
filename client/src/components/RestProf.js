@@ -60,7 +60,7 @@ const RestProf = ({ restaurant, user }) => {
       });
       resp && setThisRestaurant(resp.data);
     } catch (err) {
-      alert("user not found");
+      console.log("user not found");
     }
   };
 
