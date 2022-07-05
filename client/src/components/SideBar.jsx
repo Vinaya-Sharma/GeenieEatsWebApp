@@ -105,58 +105,60 @@ const SideBar = ({ restaurant }) => {
   if (loading) return Loader;
   return (
     <div className="min-w-100 md:min-w-0 md:w-full relative h-full min-h-screen flex flex-col place-content-center align-center bg-dblue text-center">
-      <div className="w-full max-h-[700px] h-[700px] justify-center text-center center place-content-center align-center place-self-center flex flex-col">
-        {toUse?.map((item) => {
-          return (
+      <div className="w-full max-h-screen flex flex-col place-content-center align-center bg-dblue text-center">
+        <div className="w-full h-[80vh] justify-center text-center center place-content-center align-center place-self-center flex flex-col">
+          {toUse?.map((item) => {
+            return (
+              <div
+                key={item.name}
+                className="flex flex-col"
+                onClick={() => setPage(item.name)}
+              >
+                <div
+                  className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
+                >
+                  <div
+                    onClick={() =>
+                      Navigate(`${isRest ? "/restaurants/" : "/"}${item.name}`)
+                    }
+                  >
+                    <FontAwesomeIcon
+                      color={page === item.name ? "teal" : "white"}
+                      className="fa-md"
+                      icon={item.icon}
+                    />
+                  </div>
+                </div>
+                <p className="text-white text-sm mb-5">{item.disName}</p>
+              </div>
+            );
+          })}
+          {!isRest && (
             <div
-              key={item.name}
-              className="flex flex-col"
-              onClick={() => setPage(item.name)}
+              className="lg:hidden flex flex-col"
+              onClick={() => setPage("cart")}
             >
               <div
                 className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
               >
-                <div
-                  onClick={() =>
-                    Navigate(`${isRest ? "/restaurants/" : "/"}${item.name}`)
-                  }
-                >
+                <NavLink to={"cart"}>
                   <FontAwesomeIcon
-                    color={page === item.name ? "teal" : "white"}
+                    color={page === "cart" ? "teal" : "white"}
                     className="fa-md"
-                    icon={item.icon}
+                    icon={faShoppingCart}
                   />
-                </div>
+                </NavLink>
               </div>
-              <p className="text-white text-sm mb-5">{item.disName}</p>
+              <p className="text-white text-sm mb-5">Cart</p>
             </div>
-          );
-        })}
-        {!isRest && (
-          <div
-            className="lg:hidden flex flex-col"
-            onClick={() => setPage("cart")}
-          >
-            <div
-              className={`w-12 hover:scale-105  h-12 shadow-black shadow-2 rounded-xl place-self-center place-content-center center text-center justify-center flex flex-col bg-teal`}
-            >
-              <NavLink to={"cart"}>
-                <FontAwesomeIcon
-                  color={page === "cart" ? "teal" : "white"}
-                  className="fa-md"
-                  icon={faShoppingCart}
-                />
-              </NavLink>
-            </div>
-            <p className="text-white text-sm mb-5">Cart</p>
-          </div>
-        )}
-      </div>
-      <div
-        onClick={() => logout()}
-        className="mb-5 place-self-center justify-center flex flex-col h-12 bg-dteal absolute bottom-10 left-0 right-0"
-      >
-        <FontAwesomeIcon color="white" className="fa-md" icon={faArrowLeft} />
+          )}
+        </div>
+        <div
+          onClick={() => logout()}
+          className="mb-5 place-self-center justify-center flex flex-col h-12 bg-dteal absolute bottom-10 left-0 right-0"
+        >
+          <FontAwesomeIcon color="white" className="fa-md" icon={faArrowLeft} />
+        </div>
       </div>
     </div>
   );
