@@ -10,6 +10,7 @@ import {
   faUtensils,
   faBurger,
   faShoppingCart,
+  faArrowAltCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "../context/stateContext";
 import { useEffect } from "react";
@@ -83,8 +84,8 @@ const SideBar = ({ restaurant }) => {
   const noUser = [
     {
       name: `login`,
-      disName: "Home",
-      icon: faHouse,
+      disName: "Login",
+      icon: faArrowAltCircleLeft,
     },
     {
       name: `login`,
