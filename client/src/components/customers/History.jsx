@@ -20,10 +20,11 @@ const History = ({ user }) => {
     );
   };
 
-  let orderId;
   const placeStripeOrder = async () => {
+    console.log("trying");
     const orderId = window.location.toString().slice(30);
     if (orderId && !orderId.includes("/History")) {
+      console.log("working");
       try {
         await axios
           .post(`/placeStripeOrder`, {
