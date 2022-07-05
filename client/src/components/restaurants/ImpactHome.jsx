@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import RestImpact from "./RestImpact";
 
 const ImpactHome = () => {
-  const [showSideBar, setShowSidebar] = useState(false);
+  const [showSideBar, setShowSidebar] = useState(true);
   const { isRest, isUser, userObj } = useStateContext();
 
   return (

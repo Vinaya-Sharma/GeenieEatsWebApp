@@ -37,6 +37,11 @@ import {
 import dotenv from "dotenv";
 import Stripe from "stripe";
 import orderModel from "./schemas/Order.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const stripe = new Stripe(
   "sk_test_51Kv8nTG69IjSQdLWjfHJs2Ns7iJ8ZGLsOXEmjOoHGANUO17NIymd86kDYT3UNymqQ0hYcOm5UbFriTHr74APEGit00CHepBAGf"
@@ -185,16 +190,14 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   console.log("working alright");
 
-  app.get("*", function (req, res) {
-    res.sendFile(
-      path.join(__dirname, "/client/build/index.html"),
-      function (err) {
-        if (err) {
-          res.status(500).send(__dirname);
-          console.log("dir", __dirname);
-        }
+  app.get("/*", function (req, res) {
+    console.log("dir 1", __dirname);
+    res.sendFile(__dirname + "/client/build/index.html", function (err) {
+      if (err) {
+        console.log("dir", __dirname);
+        res.status(500).send(__dirname);
       }
-    );
+    });
   });
 }
 
