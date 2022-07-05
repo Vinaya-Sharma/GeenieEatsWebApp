@@ -308,7 +308,7 @@ const RestImpact = () => {
             }
           </div>
           {usersDishes && (
-            <div className="w-11/12screen md:w-full mb-5 mt-12 md:mt-20 ">
+            <div className="w-11/12screen md:w-full mb-5 mt-12 md:mt-24 ">
               <p>
                 Pounds Of Food Saved -{" "}
                 <span className="font-bold">

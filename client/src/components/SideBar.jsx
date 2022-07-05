@@ -23,6 +23,8 @@ const SideBar = ({ restaurant }) => {
         settoUse(restElements);
       } else if (isUser) {
         settoUse(userElements);
+      } else {
+        settoUse(noUser);
       }
     }, 5);
     setPage(noUser);
