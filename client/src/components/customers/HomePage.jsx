@@ -41,7 +41,9 @@ const HomePage = () => {
 
         <div className="flex place-self-center px-auto align-self-center flex-row justify-center space-x-4 w-11/12screen md:w-11/12  overflow-scroll">
           {restaurants
-            .filter((rest) => rest.name.includes(search))
+            .filter((rest) =>
+              rest.name.toLowerCase().includes(search.toLowerCase())
+            )
             .map((store) => (
               <div
                 key={store.name}

@@ -42,7 +42,7 @@ const stripe = new Stripe(
   "sk_test_51Kv8nTG69IjSQdLWjfHJs2Ns7iJ8ZGLsOXEmjOoHGANUO17NIymd86kDYT3UNymqQ0hYcOm5UbFriTHr74APEGit00CHepBAGf"
 );
 
-const YOUR_DOMAIN = "http://localhost:3000";
+const YOUR_DOMAIN = "https://geenieeatswebapp.herokuapp.com";
 
 const app = express();
 app.use(
