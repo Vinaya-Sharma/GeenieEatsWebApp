@@ -122,6 +122,7 @@ app.post("/placeStripeOrder", async (req, res) => {
     const status = session.payment_status;
     //if status === paid update db --> set every item by the user to be paid
     if (status == "paid") {
+      console.log("paid working dudeee");
       try {
         await orderModel.updateMany(
           { email: user, placed: false },
