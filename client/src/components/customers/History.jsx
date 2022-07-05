@@ -74,7 +74,7 @@ const History = ({ user }) => {
               <p className="min-w-200 w-200 text-lg mt-2 text-white italic font-bold">
                 Status (ready by)
               </p>
-              <p className="min-w-200 w-200 text-lg mt-2 ml-5 text-white italic font-bold">
+              <p className="min-w-200 w-200 text-lg mt-2 ml-10 text-white italic font-bold">
                 Date
               </p>
             </div>
@@ -133,7 +133,7 @@ const History = ({ user }) => {
                     </p>
                   </div>
 
-                  <p className="text-md w-auto ml-5 place-self-center text-white">
+                  <p className="text-md w-full min-w-200 ml-10 place-self-center text-white">
                     {new Date(order.placedAt).toDateString()}
                   </p>
                 </div>

@@ -128,7 +128,7 @@ const Orders = () => {
             <p className="min-w-200 w-200 text-lg mt-2 text-white italic font-bold">
               Status
             </p>
-            <p className="min-w-200 w-200 ml-5 text-lg mt-2 text-white italic font-bold">
+            <p className="min-w-200 w-200 ml-10 text-lg mt-2 text-white italic font-bold">
               Date
             </p>
           </div>
@@ -184,7 +184,7 @@ const Orders = () => {
                   </p>
                 </div>
 
-                <p className="text-md place-self-center w-auto ml-5 text-white">
+                <p className="text-md place-self-center ml-10 w-full min-w-200 text-white">
                   {new Date(order.placedAt).toDateString()}
                 </p>
               </div>
