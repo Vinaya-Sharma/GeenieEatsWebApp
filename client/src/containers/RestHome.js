@@ -6,13 +6,10 @@ import Cart from "../components/customers/Cart";
 import NavBar from "../components/NavBar";
 
 import axios from "axios";
-import { useCookies } from "react-cookie";
 import { useStateContext } from "../context/stateContext";
 
 const Home = () => {
   const [showSideBar, setShowSidebar] = useState(false);
-
-  const [Cookies, setCookie, removeCookie] = useCookies();
 
   const { getRest, findRest, restaurants, restObj } = useStateContext();
 

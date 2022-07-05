@@ -4,7 +4,6 @@ import Cart from "../../components/customers/Cart";
 import NavBar from "../../components/NavBar";
 import { useStateContext } from "../../context/stateContext";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 import RestImpact from "./RestImpact";
 
 const ImpactHome = () => {

@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 import toast from "react-hot-toast";
 const Context = createContext({ isUser: null, isRest: null });
 
@@ -13,24 +12,23 @@ export const StateContext = ({ children }) => {
   const [restObj, setRestObj] = useState(null);
   const [theOrders, settheOrders] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies([]);
   const Navigator = useNavigate();
 
   const userCheck = async () => {
-    if (cookies.auth && cookies.email) {
+    if (localStorage.getItem("auth") && localStorage.getItem("email")) {
       setIsRest(null);
       setRestObj(null);
-      setIsUser(cookies.email);
+      setIsUser(localStorage.getItem("email"));
       findUser();
     } else if (isUser && userObj) {
       setIsRest(null);
       setRestObj(null);
     } else if (
-      cookies.auth &&
-      cookies.emailr &&
+      localStorage.getItem("auth") &&
+      localStorage.getItem("emailr") &&
       window.location.toString().includes("restaurants")
     ) {
-      setIsRest(cookies.emailr);
+      setIsRest(localStorage.getItem("emailr"));
       setIsUser(null);
       setUserObj(null);
       findRest();
@@ -42,20 +40,20 @@ export const StateContext = ({ children }) => {
     } else {
       if (window.location.toString().includes("impactReport")) {
         //setting rest &7 customers
-        if (cookies.auth && cookies.email) {
+        if (localStorage.getItem("auth") && localStorage.getItem("email")) {
           setIsRest(null);
           setRestObj(null);
-          setIsUser(cookies.email);
+          setIsUser(localStorage.getItem("email"));
           findUser();
         } else if (isUser && userObj) {
           setIsRest(null);
           setRestObj(null);
         } else if (
-          cookies.auth &&
-          cookies.emailr &&
+          localStorage.getItem("auth") &&
+          localStorage.getItem("emailr") &&
           window.location.toString().includes("restaurants")
         ) {
-          setIsRest(cookies.emailr);
+          setIsRest(localStorage.getItem("emailr"));
           setIsUser(null);
           setUserObj(null);
           findRest();
@@ -88,8 +86,8 @@ export const StateContext = ({ children }) => {
         setIsRest(null);
         setIsUser(resp.data.user.email);
         setUserObj(resp.data.user);
-        setCookie("email", resp.data.user.email);
-        setCookie("auth", resp.data.token);
+        localStorage.setItem("email", resp.data.user.email);
+        localStorage.setItem("auth", resp.data.token);
         Navigator("/");
         toast.loading("Signing you in!");
       } else {
@@ -115,8 +113,8 @@ export const StateContext = ({ children }) => {
         setIsRest(null);
         setIsUser(resp.data.user.email);
         setUserObj(resp.data.user);
-        setCookie("email", resp.data.user.email);
-        setCookie("auth", resp.data.token);
+        localStorage.setItem("email", resp.data.user.email);
+        localStorage.setItem("auth", resp.data.token);
         Navigator("/");
       } else console.log("Email taken");
     } catch (err) {
@@ -136,8 +134,8 @@ export const StateContext = ({ children }) => {
         setIsRest(resp.data.rest.email);
         setRestObj(resp.data);
         setIsUser(null);
-        setCookie("emailr", resp.data.rest.email);
-        setCookie("auth", resp.data.token);
+        localStorage.setItem("emailr", resp.data.rest.email);
+        localStorage.setItem("auth", resp.data.token);
         Navigator("/restaurants");
         toast.loading("Signing you in!");
       } else {
@@ -172,8 +170,8 @@ export const StateContext = ({ children }) => {
         setIsRest(resp.data.rest.email);
         setRestObj(resp.data.rest);
         setIsUser(null);
-        setCookie("emailr", resp.data.rest.email);
-        setCookie("auth", resp.data.token);
+        localStorage.setItem("emailr", resp.data.rest.email);
+        localStorage.setItem("auth", resp.data.token);
         Navigator("/restaurants");
       } else console.log("email taken");
     } catch (err) {
@@ -248,10 +246,10 @@ export const StateContext = ({ children }) => {
     setIsUser(null);
     setRestObj(null);
     setUserObj(null);
-    removeCookie("email", { path: "/" });
-    removeCookie("auth", { path: "/" });
-    removeCookie("email", { path: "/restaurants" });
-    removeCookie("auth", { path: "/restaurants" });
+    localStorage.removeItem("email", { path: "/" });
+    localStorage.removeItem("auth", { path: "/" });
+    localStorage.removeItem("email", { path: "/restaurants" });
+    localStorage.removeItem("auth", { path: "/restaurants" });
     Navigator("/login");
   };
 

@@ -5,16 +5,14 @@ import Cart from "../components/customers/Cart";
 import NavBar from "../components/NavBar";
 import { useStateContext } from "../context/stateContext";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 
 const Home = () => {
   const [showSideBar, setShowSidebar] = useState(false);
   const { findUser, restaurants, userObj, userCheck, isUser } =
     useStateContext();
-  const [cookies, setCookie, removeCookie] = useCookies([]);
 
   const checkingAgain = () => {
-    const email = cookies.email;
+    const email = localStorage.getItem("email");
     if (email && userObj && email !== isUser) {
       window.location.reload();
     }
