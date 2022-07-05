@@ -269,7 +269,7 @@ const RestImpact = () => {
               )
             }
             {
-              <div className="w-full lg:w-4/6  h-full sm:w-3/6 gap-2 flex flex-col mb-5">
+              <div className="w-full lg:w-4/6  h-full sm:w-3/6 gap-2 flex flex-col md:mb-10 mb-5">
                 <p className="mt-5 border-white border-b-2 w-auto pb-2 font-bold">
                   Restaurant Info & Weekly Finds
                 </p>
