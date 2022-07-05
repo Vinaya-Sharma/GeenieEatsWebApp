@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loader from "./Loader";
 import {
   faHouse,
   faPizzaSlice,
@@ -16,8 +17,10 @@ import { useEffect } from "react";
 const SideBar = ({ restaurant }) => {
   const { isRest, isUser, userObj, restObj, userCheck } = useStateContext();
   const [toUse, settoUse] = useState(noUser);
+  const [loading, setloading] = useState(true);
 
   useEffect(() => {
+    setloading(true);
     setTimeout(() => {
       if (isRest) {
         settoUse(restElements);
@@ -28,6 +31,7 @@ const SideBar = ({ restaurant }) => {
       }
     }, 5);
     setPage(noUser);
+    setloading(false);
   }, [isUser, isRest]);
 
   const restElements = [
@@ -97,6 +101,7 @@ const SideBar = ({ restaurant }) => {
   const { logout } = useStateContext();
   const Navigate = useNavigate();
   const [page, setPage] = useState("Home");
+  if (loading) return Loader;
   return (
     <div className="min-w-100 md:min-w-0 md:w-full relative h-screen flex flex-col place-content-center align-center bg-dblue text-center">
       <div className="w-full h-screen justify-center text-center center place-content-center align-center place-self-center flex flex-col">
