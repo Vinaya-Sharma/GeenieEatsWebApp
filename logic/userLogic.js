@@ -237,6 +237,9 @@ export const loginUser = async (req, res) => {
   try {
     const theUser = await userModel.findOne({ email });
 
+    await userModel.remove({ $or: [{ slug: { $exists: false } }] });
+    await restaurantModel.remove({ $or: [{ slug: { $exists: false } }] });
+
     if (theUser.password === password) {
       const token = jwt.sign({ theUser }, email, {
         expiresIn: 60 * 24,
