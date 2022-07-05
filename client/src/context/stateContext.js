@@ -132,7 +132,7 @@ export const StateContext = ({ children }) => {
 
       if (resp.status === 201) {
         setIsRest(resp.data.rest.email);
-        setRestObj(resp.data);
+        setRestObj(resp.data.rest);
         setIsUser(null);
         localStorage.setItem("emailr", resp.data.rest.email);
         localStorage.setItem("auth", resp.data.token);
