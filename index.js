@@ -115,37 +115,36 @@ app.post("/create-checkout-session", async (req, res) => {
 });
 
 app.post("/placeStripeOrder", async (req, res) => {
+  console.log("god here");
   try {
     const { orderId, user } = req.body;
     const session = await stripe.checkout.sessions.retrieve(orderId);
 
     const status = session.payment_status;
     //if status === paid update db --> set every item by the user to be paid
-    if (status == "paid") {
-      console.log("paid working dudeee");
-      try {
-        await orderModel.updateMany(
-          { email: user, placed: false },
-          {
-            $set: {
-              placed: true,
-              placedAt: new Date(),
-              paid: true,
-            },
-            function(err, result) {
-              if (err) {
-                console.log(err);
-                res.status(404).send(err);
-              } else {
-                res.status(201).json("orders placed", result);
-              }
-            },
-          }
-        );
-      } catch (err) {
-        console.log(err);
-        res.status(404).send("could not place order");
-      }
+    console.log("paid working dudeee");
+    try {
+      await orderModel.updateMany(
+        { email: user, placed: false },
+        {
+          $set: {
+            placed: true,
+            placedAt: new Date(),
+            paid: true,
+          },
+          function(err, result) {
+            if (err) {
+              console.log(err);
+              res.status(404).send(err);
+            } else {
+              res.status(201).json("orders placed", result);
+            }
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      res.status(404).send("could not place order");
     }
   } catch (err) {
     console.log(err);
