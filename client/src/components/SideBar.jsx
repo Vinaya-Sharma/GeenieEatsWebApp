@@ -15,7 +15,7 @@ import { useEffect } from "react";
 
 const SideBar = ({ restaurant }) => {
   const { isRest, isUser, userObj, restObj, userCheck } = useStateContext();
-  const [toUse, settoUse] = useState(null);
+  const [toUse, settoUse] = useState(noUser);
 
   useEffect(() => {
     setTimeout(() => {
@@ -95,7 +95,6 @@ const SideBar = ({ restaurant }) => {
   const { logout } = useStateContext();
   const Navigate = useNavigate();
   const [page, setPage] = useState("Home");
-  if (!toUse) return;
   return (
     <div className="min-w-100 md:min-w-0 md:w-full relative h-screen flex flex-col place-content-center align-center bg-dblue text-center">
       <div className="w-full h-screen justify-center text-center center place-content-center align-center place-self-center flex flex-col">
