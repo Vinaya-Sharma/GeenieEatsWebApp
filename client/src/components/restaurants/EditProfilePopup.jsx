@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -63,14 +63,16 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
           </div>
           <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
             <label className="text-sm" htmlFor="cost">
-              Price
+              Website
             </label>
             <input
               className="my-3 px-3 py-2 rounded-lg outline-white"
               type="text"
               name="cost"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
+              value={RestCopy.website}
+              onChange={(e) =>
+                (RestCopy = { ...RestCopy, website: e.target.value })
+              }
             />
           </div>
           <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
@@ -118,8 +120,8 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
           <img
             className="w-full h-44 object-contain"
             src={
-              img
-                ? img
+              RestCopy.img
+                ? RestCopy.img
                 : "https://aadhyafoodindian.com/img/placeholders/grey_fork_and_knife.png"
             }
           />
