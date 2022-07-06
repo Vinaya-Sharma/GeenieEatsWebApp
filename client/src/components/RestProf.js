@@ -78,7 +78,7 @@ const RestProf = ({ restaurant, user }) => {
     setOwnProfile(false);
     findRestaurant();
     findMeals();
-  }, [name, showEditPopup]);
+  }, [name, showEditPopup, meals]);
 
   return (
     <div>
@@ -115,14 +115,12 @@ const RestProf = ({ restaurant, user }) => {
             {thisRestaurant.location}
           </p>
           {ownProfile && (
-            <div className="w-full place-content-center place-self-center content-center text-center justify-center text-sm">
-              <p
-                onClick={() => setShowEditPopup(true)}
-                className="hover:opacity-90 mb-2 w-28 flex place-self-center text-center py-1 px-2 rounded-lg bg-white"
-              >
-                Edit Profile
-              </p>
-            </div>
+            <p
+              onClick={() => setShowEditPopup(true)}
+              className="w-full underline text-center text-sm text-stone-300"
+            >
+              ➡️ Edit Profile
+            </p>
           )}
         </div>
 
