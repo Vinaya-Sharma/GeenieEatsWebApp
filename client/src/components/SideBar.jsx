@@ -42,7 +42,7 @@ const SideBar = ({ restaurant }) => {
       icon: faHouse,
     },
     {
-      name: `order/${restObj?.name}`,
+      name: `order/${restObj?.slug}`,
       disName: "Profile",
       icon: faPizzaSlice,
     },

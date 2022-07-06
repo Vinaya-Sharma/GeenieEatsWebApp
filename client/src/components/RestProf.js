@@ -6,11 +6,14 @@ import axios from "axios";
 import Img from "../assets/logo.png";
 import { useStateContext } from "../context/stateContext";
 import toast from "react-hot-toast";
+import EditProfilePopup from "./restaurants/EditProfilePopup";
 
 const RestProf = ({ restaurant, user }) => {
   const Params = useParams();
   const { getCartItems } = useStateContext();
   const [thisRestaurant, setThisRestaurant] = useState({});
+  const [ownProfile, setOwnProfile] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
   const [meals, setMeals] = useState({});
 
   const name = Params.name;
@@ -59,6 +62,11 @@ const RestProf = ({ restaurant, user }) => {
         name,
       });
       resp && setThisRestaurant(resp.data);
+      if (name == resp.data.slug) {
+        setOwnProfile(true);
+      } else {
+        setOwnProfile(false);
+      }
     } catch (err) {
       console.log("user not found");
     }
@@ -71,6 +79,12 @@ const RestProf = ({ restaurant, user }) => {
 
   return (
     <div>
+      {showEditPopup && (
+        <EditProfilePopup
+          restaurant={thisRestaurant}
+          setShowEditPopup={setShowEditPopup}
+        />
+      )}
       <div className="flex relative h-full min-h-screen bg-base place-self-center flex-col w-12/12">
         <div className="shadow-lg  w-6 h-6 absolute top-2 left-2 items-center justify-center flex bg-white rounded-full">
           <Link to={"/home"}>
@@ -83,16 +97,25 @@ const RestProf = ({ restaurant, user }) => {
         <div className="w-full h-full">
           <img className="w-full h-48 object-cover" src={thisRestaurant.img} />
         </div>
-
         <img
           className="w-24 h-24 object-cover place-self-center mt-[-40px] border-2 border-black bg-white rounded-full"
           src={thisRestaurant?.logo ? thisRestaurant.logo : Img}
         />
 
         <div className="flex place-content-center place-self-center flex-col w-11/12 min-w-250">
-          <p className="w-full text-center text-white m-3 place-self-center text-lg bold">
-            {thisRestaurant.name}
-          </p>
+          <div className="w-full flex text-center">
+            <p className="w-full text-center text-white m-3 place-self-center text-lg bold">
+              {thisRestaurant.name}
+            </p>
+            {ownProfile && (
+              <div
+                onClick={() => setShowEditPopup(true)}
+                className="hover:opacity-90 w-full p-2 rounded-lg bg-white"
+              >
+                <p>Edit Profile</p>
+              </div>
+            )}
+          </div>
           <p className="w-full text-center text-sm text-stone-300">
             {thisRestaurant.location}
           </p>

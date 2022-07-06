@@ -49,8 +49,8 @@ const HomePage = () => {
                 key={store.name}
                 onClick={() =>
                   restObj
-                    ? Navigator(`/restaurants/order/${store.name}`)
-                    : Navigator(`/order/${store.name}`)
+                    ? Navigator(`/restaurants/order/${store.slug}`)
+                    : Navigator(`/order/${store.slug}`)
                 }
                 className="hover:scale-105 flex flex-col min-w-250 h-64 mb-5 rounded-xl bg-dblue"
               >
@@ -81,8 +81,8 @@ const HomePage = () => {
                 key={store.name}
                 onClick={() =>
                   restObj
-                    ? Navigator(`/restaurants/order/${store.name}`)
-                    : Navigator(`/order/${store.name}`)
+                    ? Navigator(`/restaurants/order/${store.slug}`)
+                    : Navigator(`/order/${store.slug}`)
                 }
                 className="hover:scale-105 flex flex-col min-w-250 h-64 mb-5 rounded-xl bg-dblue"
               >

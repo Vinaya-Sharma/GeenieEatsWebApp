@@ -3,6 +3,25 @@ import restaurantModel from "../schemas/Restaurants.js";
 import orderSchema from "../schemas/Order.js";
 import jwt from "jsonwebtoken";
 
+export const updateProfile = async (req, res) => {
+  const { restData } = req.body;
+
+  try {
+    await restaurantModel
+      .findOne({ email: restData.email })
+      .then((store) => {
+        store.set(restData);
+        return store.save();
+      })
+      .then(() => {
+        res.status(201).send("update successfull");
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(404).send("could not update");
+  }
+};
+
 export const restNumDishes = async (req, res) => {
   const { email } = req.body;
   try {
@@ -195,7 +214,7 @@ export const findRestaurant = async (req, res) => {
   const { name } = req.body;
 
   try {
-    const theRest = await restaurantModel.findOne({ name });
+    const theRest = await restaurantModel.findOne({ slug: name });
     res.status(201).json(theRest);
   } catch (err) {
     console.log(err);

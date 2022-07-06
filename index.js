@@ -33,6 +33,7 @@ import {
   levelUp,
   impactReportRest,
   restNumDishes,
+  updateProfile,
 } from "./logic/restaurantLogic.js";
 import dotenv from "dotenv";
 import Stripe from "stripe";
@@ -185,6 +186,8 @@ app.post("/impactReportUser", impactReportUser);
 
 app.post("/impactReportRest", impactReportRest);
 app.post("/restNumDishes", restNumDishes);
+
+app.post("/updateProfile", updateProfile);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
