@@ -1,7 +1,6 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    plugins: [require("tailwind-scrollbar-hide")],
     extend: {
       animation: {
         bounce200: "bounce 1s infinite 200ms",
@@ -50,5 +49,5 @@ module.exports = {
       playfair: "Playfair Display",
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };
