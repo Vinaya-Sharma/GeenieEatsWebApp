@@ -64,7 +64,7 @@ const RestProf = ({ restaurant, user }) => {
       });
       resp && setThisRestaurant(resp.data);
       resp && setRestCopy(resp.data);
-      if (name == resp.data.slug) {
+      if (name && name == resp.data.slug) {
         setOwnProfile(true);
         alert("yes its mine");
       } else {
@@ -116,11 +116,13 @@ const RestProf = ({ restaurant, user }) => {
             {thisRestaurant.location}
           </p>
           {ownProfile && (
-            <div
-              onClick={() => setShowEditPopup(true)}
-              className="hover:opacity-90 mb-2 w-28 flex text-center py-1 px-2 rounded-lg bg-white"
-            >
-              Edit Profile
+            <div className="w-full text-center text-sm text-stone-300">
+              <p
+                onClick={() => setShowEditPopup(true)}
+                className="hover:opacity-90 mb-2 w-28 flex text-center py-1 px-2 rounded-lg bg-white"
+              >
+                Edit Profile
+              </p>
             </div>
           )}
         </div>
