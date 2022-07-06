@@ -75,10 +75,10 @@ const RestProf = ({ restaurant, user }) => {
   };
 
   useEffect(() => {
+    setOwnProfile(false);
     findRestaurant();
     findMeals();
-    setOwnProfile(false);
-  }, [meals]);
+  }, [name]);
 
   return (
     <div>
@@ -108,10 +108,8 @@ const RestProf = ({ restaurant, user }) => {
         />
 
         <div className="flex place-content-center place-self-center flex-col w-11/12 min-w-250">
-          <div className="w-full flex items-center place-content-center place-self-center text-center">
-            <p className="w-full text-center text-white m-3 place-self-center text-lg bold">
-              {thisRestaurant.name}
-            </p>
+          <p className="w-full text-center text-white m-3 place-self-center text-lg bold">
+            {thisRestaurant.name}{" "}
             {ownProfile && (
               <div
                 onClick={() => setShowEditPopup(true)}
@@ -120,7 +118,7 @@ const RestProf = ({ restaurant, user }) => {
                 Edit Profile
               </div>
             )}
-          </div>
+          </p>
           <p className="w-full text-center text-sm text-stone-300">
             {thisRestaurant.location}
           </p>

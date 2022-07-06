@@ -187,7 +187,7 @@ app.post("/impactReportUser", impactReportUser);
 app.post("/impactReportRest", impactReportRest);
 app.post("/restNumDishes", restNumDishes);
 
-app.post("/updateProfile", updateProfile);
+app.put("/updateProfile", updateProfile);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
