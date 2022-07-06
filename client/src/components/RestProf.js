@@ -10,9 +10,10 @@ import EditProfilePopup from "./restaurants/EditProfilePopup";
 
 const RestProf = ({ restaurant, user }) => {
   const Params = useParams();
-  const { getCartItems } = useStateContext();
+  const { getCartItems, isRest } = useStateContext();
   const [thisRestaurant, setThisRestaurant] = useState({});
   const [ownProfile, setOwnProfile] = useState(false);
+  const [RestCopy, setRestCopy] = useState({});
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [meals, setMeals] = useState({});
 
@@ -61,7 +62,7 @@ const RestProf = ({ restaurant, user }) => {
       const resp = await axios.post("/findRestaurant", {
         name,
       });
-      resp && setThisRestaurant(resp.data);
+      resp && setThisRestaurant(resp.data) && setRestCopy(resp.data);
       if (name == resp.data.slug) {
         setOwnProfile(true);
       } else {
@@ -75,6 +76,7 @@ const RestProf = ({ restaurant, user }) => {
   useEffect(() => {
     findRestaurant();
     findMeals();
+    setOwnProfile(false);
   }, [meals]);
 
   return (
@@ -83,11 +85,13 @@ const RestProf = ({ restaurant, user }) => {
         <EditProfilePopup
           restaurant={thisRestaurant}
           setShowEditPopup={setShowEditPopup}
+          RestCopy={RestCopy}
+          setRestCopy={setRestCopy}
         />
       )}
       <div className="flex relative h-full min-h-screen bg-base place-self-center flex-col w-12/12">
         <div className="shadow-lg  w-6 h-6 absolute top-2 left-2 items-center justify-center flex bg-white rounded-full">
-          <Link to={"/home"}>
+          <Link to={`${isRest ? "/restaurants/home" : "/home"}`}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               className="text-lg text-black"
@@ -110,9 +114,9 @@ const RestProf = ({ restaurant, user }) => {
             {ownProfile && (
               <div
                 onClick={() => setShowEditPopup(true)}
-                className="hover:opacity-90 w-full p-2 rounded-lg bg-white"
+                className="hover:opacity-90 mb-2 w-32 flex text-center p-2 rounded-lg bg-white"
               >
-                <p>Edit Profile</p>
+                Edit Profile
               </div>
             )}
           </div>

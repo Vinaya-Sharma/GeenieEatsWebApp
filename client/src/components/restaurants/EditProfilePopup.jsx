@@ -3,7 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
+const EditProfilePopup = ({
+  setShowEditPopup,
+  restaurant,
+  RestCopy,
+  setRestCopy,
+}) => {
   const addDish = async (e) => {
     e.preventDefault();
     try {
@@ -15,11 +20,6 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
       console.log(err);
     }
   };
-
-  let RestCopy;
-  useEffect(() => {
-    RestCopy = restaurant;
-  }, []);
 
   return (
     <div>
@@ -43,7 +43,7 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
               name="name"
               value={RestCopy.name}
               onChange={(e) =>
-                (RestCopy = { ...RestCopy, name: e.target.value })
+                setRestCopy({ ...RestCopy, name: e.target.value })
               }
             />
           </div>
@@ -57,7 +57,7 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
               name="description"
               value={RestCopy.email}
               onChange={(e) =>
-                (RestCopy = { ...RestCopy, email: e.target.value })
+                setRestCopy({ ...RestCopy, email: e.target.value })
               }
             />
           </div>
@@ -71,7 +71,7 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
               name="cost"
               value={RestCopy.website}
               onChange={(e) =>
-                (RestCopy = { ...RestCopy, website: e.target.value })
+                setRestCopy({ ...RestCopy, website: e.target.value })
               }
             />
           </div>
@@ -85,7 +85,7 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
               name="Ingredients"
               value={RestCopy.location}
               onChange={(e) =>
-                (RestCopy = { ...RestCopy, location: e.target.value })
+                setRestCopy({ ...RestCopy, location: e.target.value })
               }
             />
           </div>
@@ -99,7 +99,7 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
               name="PrepTime"
               value={RestCopy.img}
               onChange={(e) =>
-                (RestCopy = { ...RestCopy, img: e.target.value })
+                setRestCopy({ ...RestCopy, img: e.target.value })
               }
             />
           </div>
@@ -113,7 +113,7 @@ const EditProfilePopup = ({ setShowEditPopup, restaurant }) => {
               name="img"
               value={RestCopy.logo}
               onChange={(e) =>
-                (RestCopy = { ...RestCopy, logo: e.target.value })
+                setRestCopy({ ...RestCopy, logo: e.target.value })
               }
             />
           </div>
