@@ -62,22 +62,28 @@ const RestProf = ({ restaurant, user }) => {
       const resp = await axios.post("/findRestaurant", {
         name,
       });
-      resp && setThisRestaurant(resp.data);
-      resp && setRestCopy(resp.data);
-      resp && setMeals(resp.data.dishes);
+
       if (isRest && restObj.slug == resp.data.slug) {
         setOwnProfile(true);
       } else {
         setOwnProfile(false);
       }
+      resp && setThisRestaurant(resp.data);
+      resp && setRestCopy(resp.data);
+      resp && setMeals(resp.data.dishes);
     } catch (err) {
       console.log("user not found");
     }
   };
 
   useEffect(() => {
-    setOwnProfile(false);
     findRestaurant();
+
+    if (isRest && restObj.slug == thisRestaurant.slug) {
+      setOwnProfile(true);
+    } else {
+      setOwnProfile(false);
+    }
   }, [name, showEditPopup, meals]);
 
   return (
