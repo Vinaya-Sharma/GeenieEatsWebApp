@@ -64,6 +64,7 @@ const RestProf = ({ restaurant, user }) => {
       });
       resp && setThisRestaurant(resp.data);
       resp && setRestCopy(resp.data);
+      resp && setMeals(resp.data.dishes);
       if (isRest && restObj.slug == resp.data.slug) {
         setOwnProfile(true);
       } else {
@@ -77,7 +78,6 @@ const RestProf = ({ restaurant, user }) => {
   useEffect(() => {
     setOwnProfile(false);
     findRestaurant();
-    findMeals();
   }, [name, showEditPopup, meals]);
 
   return (
@@ -117,7 +117,7 @@ const RestProf = ({ restaurant, user }) => {
           {ownProfile && (
             <p
               onClick={() => setShowEditPopup(true)}
-              className="w-full underline text-center text-sm text-stone-300"
+              className="w-full border-b-1 pb-1 border-white text-center cursor-pointer text-sm text-stone-300"
             >
               ➡️ Edit Profile
             </p>
