@@ -105,7 +105,7 @@ const SideBar = ({ restaurant }) => {
   if (loading) return Loader;
   return (
     <div className="min-w-100 md:min-w-0 md:w-full h-full min-h-screen flex flex-col bg-dblue">
-      <div className="w-full relative max-h-[900px] h-[900px] flex flex-col place-content-center align-center bg-dblue text-center">
+      <div className="w-full relative max-h-[800px] h-[800px] flex flex-col place-content-center align-center bg-dblue text-center">
         <div className="w-full h-[80vh] justify-center text-center center place-content-center align-center place-self-center flex flex-col">
           {toUse?.map((item) => {
             return (

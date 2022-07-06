@@ -39,7 +39,7 @@ const HomePage = () => {
           {search !== "" ? "Search Results" : "Popular Stores"}
         </p>
 
-        <div className="flex place-self-center px-auto align-self-center flex-row justify-center space-x-4 w-11/12screen md:w-11/12  overflow-scroll">
+        <div className="flex scrollbar-hide place-self-center px-auto align-self-center flex-row justify-center space-x-4 w-11/12screen md:w-11/12  overflow-scroll">
           {restaurants
             .filter((rest) =>
               rest.name.toLowerCase().includes(search.toLowerCase())
@@ -72,7 +72,7 @@ const HomePage = () => {
           Newly Added
         </p>
 
-        <div className="flex place-self-center px-auto align-self-center flex-row justify-center space-x-4 w-11/12screen md:w-11/12  overflow-scroll">
+        <div className="flex scrollbar-hide place-self-center px-auto align-self-center flex-row justify-center space-x-4 w-11/12screen md:w-11/12  overflow-scroll">
           {restaurants
             .slice()
             .reverse()

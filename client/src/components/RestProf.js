@@ -123,7 +123,7 @@ const RestProf = ({ restaurant, user }) => {
           {ownProfile && (
             <p
               onClick={() => setShowEditPopup(true)}
-              className="w-full border-b-1 pb-1 border-white text-center cursor-pointer text-sm text-stone-300"
+              className="w-full border-2 p-1 border-white text-center cursor-pointer text-sm text-stone-300"
             >
               ➡️ Edit Profile
             </p>
