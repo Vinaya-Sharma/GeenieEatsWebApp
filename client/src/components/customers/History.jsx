@@ -133,7 +133,7 @@ const History = ({ user }) => {
                     </p>
                   </div>
 
-                  <p className="w-100 mt-2 min-w-100 text-md text-white">
+                  <p className="w-200 mt-2 min-w-100 ml-10 text-md text-white">
                     {new Date(order.placedAt).toDateString()}
                   </p>
                 </div>
