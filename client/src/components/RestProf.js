@@ -66,6 +66,7 @@ const RestProf = ({ restaurant, user }) => {
       resp && setRestCopy(resp.data);
       if (name == resp.data.slug) {
         setOwnProfile(true);
+        alert("yes its mine");
       } else {
         setOwnProfile(false);
       }
@@ -78,7 +79,7 @@ const RestProf = ({ restaurant, user }) => {
     setOwnProfile(false);
     findRestaurant();
     findMeals();
-  }, [name]);
+  }, [name, showEditPopup]);
 
   return (
     <div>
@@ -110,18 +111,18 @@ const RestProf = ({ restaurant, user }) => {
         <div className="flex place-content-center place-self-center flex-col w-11/12 min-w-250">
           <p className="w-full text-center text-white m-3 place-self-center text-lg bold">
             {thisRestaurant.name}{" "}
-            {ownProfile && (
-              <div
-                onClick={() => setShowEditPopup(true)}
-                className="hover:opacity-90 mb-2 w-28 flex text-center py-1 px-2 rounded-lg bg-white"
-              >
-                Edit Profile
-              </div>
-            )}
           </p>
           <p className="w-full text-center text-sm text-stone-300">
             {thisRestaurant.location}
           </p>
+          {ownProfile && (
+            <div
+              onClick={() => setShowEditPopup(true)}
+              className="hover:opacity-90 mb-2 w-28 flex text-center py-1 px-2 rounded-lg bg-white"
+            >
+              Edit Profile
+            </div>
+          )}
         </div>
 
         <div className=" mt-10 place-content-center justify-center place-self-center">

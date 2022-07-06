@@ -33,20 +33,6 @@ const EditProfilePopup = ({
           Edit Profile
         </p>
         <form onSubmit={(e) => addDish(e)} className="flex flex-row flex-wrap">
-          <div className="px-5 w-full flex md:w-3/6 min-w-150 flex-col">
-            <label className="text-sm" htmlFor="name">
-              Restaurant Name
-            </label>
-            <input
-              className="my-3 px-3 py-2 rounded-lg outline-white"
-              type="text"
-              name="name"
-              value={RestCopy.name}
-              onChange={(e) =>
-                setRestCopy({ ...RestCopy, name: e.target.value })
-              }
-            />
-          </div>
           <div className="flex px-5 w-full  md:w-3/6 min-w-150 flex-col">
             <label className="text-sm" htmlFor="description">
               Email
