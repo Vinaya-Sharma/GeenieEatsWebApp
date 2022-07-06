@@ -62,7 +62,8 @@ const RestProf = ({ restaurant, user }) => {
       const resp = await axios.post("/findRestaurant", {
         name,
       });
-      resp && setThisRestaurant(resp.data) && setRestCopy(resp.data);
+      resp && setThisRestaurant(resp.data);
+      resp && setRestCopy(resp.data);
       if (name == resp.data.slug) {
         setOwnProfile(true);
       } else {
@@ -107,14 +108,14 @@ const RestProf = ({ restaurant, user }) => {
         />
 
         <div className="flex place-content-center place-self-center flex-col w-11/12 min-w-250">
-          <div className="w-full flex text-center">
+          <div className="w-full flex items-center place-content-center place-self-center text-center">
             <p className="w-full text-center text-white m-3 place-self-center text-lg bold">
               {thisRestaurant.name}
             </p>
             {ownProfile && (
               <div
                 onClick={() => setShowEditPopup(true)}
-                className="hover:opacity-90 mb-2 w-32 flex text-center p-2 rounded-lg bg-white"
+                className="hover:opacity-90 mb-2 w-28 flex text-center py-1 px-2 rounded-lg bg-white"
               >
                 Edit Profile
               </div>
@@ -126,7 +127,7 @@ const RestProf = ({ restaurant, user }) => {
         </div>
 
         <div className=" mt-10 place-content-center justify-center place-self-center">
-          <div className="w-5/12 min-w-320 w-full overflow-y-scroll justify-center place-content-center h-96 place-self-center">
+          <div className="w-5/12 min-w-320 overflow-y-scroll justify-center place-content-center h-96 place-self-center">
             {meals?.length > 0 &&
               meals
                 ?.filter((meal) => meal.available === true)
@@ -145,7 +146,7 @@ const RestProf = ({ restaurant, user }) => {
                         {item.name}
                       </p>
 
-                      <p className="w-2/12 text-center place-self-center text-right text-white text-s">
+                      <p className="w-2/12 place-self-center text-right text-white text-s">
                         ${item.cost}
                       </p>
                       <FontAwesomeIcon
