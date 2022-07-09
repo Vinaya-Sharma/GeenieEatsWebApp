@@ -132,7 +132,7 @@ const AddPage = () => {
           {meals?.length > 0 &&
             meals?.map((meal) => {
               const base64string = btoa(
-                String.fromCharCode(...new Uint8Array(item.img.data))
+                String.fromCharCode(...new Uint8Array(meal.img.data))
               )(
                 <div
                   key={meal._id}
