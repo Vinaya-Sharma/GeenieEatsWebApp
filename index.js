@@ -187,11 +187,7 @@ const imageFilter = function (req, file, cb) {
   cb(null, true);
 };
 
-let upload = multer({ storage: storage, fileFilter: imageFilter }).single(
-  "dishImg"
-);
-
-app.post("/addDish/:email", upload.single("test"), async (req, res) => {
+app.post("/addDish/:email", async (req, res) => {
   const { name, description, ingredients, cost, prepTime, img } = req.body;
   const available = true;
   const obj = {
@@ -206,6 +202,9 @@ app.post("/addDish/:email", upload.single("test"), async (req, res) => {
     },
     available,
   };
+  let upload = multer({ storage: storage, fileFilter: imageFilter }).single(
+    "dishImg"
+  );
   const restEmail = req.params.email;
 
   try {
