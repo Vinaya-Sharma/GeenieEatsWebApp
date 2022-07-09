@@ -26,7 +26,6 @@ import {
   findRestaurants,
   findRestaurant,
   findTheRest,
-  addDish,
   findDishes,
   deleteDish,
   updateMeal,
