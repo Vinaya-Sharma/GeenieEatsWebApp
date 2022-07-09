@@ -136,8 +136,8 @@ const RestProf = ({ restaurant, user }) => {
               meals
                 ?.filter((meal) => meal.available === true)
                 .map((item, id) => {
-                  const base64string = btoa(
-                    String.fromCharCode(...new Uint8Array(item.img.data))
+                  const base64string = Buffer.from(item.img.data).toString(
+                    "base64"
                   )(
                     <div
                       key={id}
