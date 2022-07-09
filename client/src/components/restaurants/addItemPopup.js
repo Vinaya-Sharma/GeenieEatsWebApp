@@ -151,26 +151,28 @@ const AddItemPopup = ({
                 onChange={(e) => setPreptime(e.target.value)}
               />
             </div>
+
             <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
-              <label className="text-sm" htmlFor="img">
-                Image
+              <label className="text-sm" htmlFor="dishImg">
+                Select your profile picture:
               </label>
               <input
-                className="my-3 px-3 py-2 rounded-lg outline-white"
-                type="text"
-                name="img"
                 value={img}
                 onChange={(e) => setImg(e.target.value)}
+                className="my-3 px-3 py-2 rounded-lg outline-white"
+                type="file"
+                name="dishImg"
               />
             </div>
-            <img
+
+            {/* <img
               className="w-full h-44 object-contain"
               src={
                 img
                   ? img
                   : "https://aadhyafoodindian.com/img/placeholders/grey_fork_and_knife.png"
               }
-            />
+            /> */}
             <div className="w-full flex flex-col place-content-center h-full">
               <input
                 type="submit"

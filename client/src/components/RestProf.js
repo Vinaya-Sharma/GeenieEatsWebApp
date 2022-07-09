@@ -135,39 +135,43 @@ const RestProf = ({ restaurant, user }) => {
             {meals?.length > 0 &&
               meals
                 ?.filter((meal) => meal.available === true)
-                .map((item, id) => (
-                  <div
-                    key={id}
-                    className="w-full place-self-center flex flex-col"
-                  >
-                    <div className="flex flex-row relative">
-                      <img
-                        src={item.img}
-                        alt="food item"
-                        className="w-10 object-cover h-10 rounded-full"
-                      />
-                      <p className="w-5/12 text-white mx-3 place-self-center text-xs">
-                        {item.name}
-                      </p>
+                .map((item, id) => {
+                  const base64string = btoa(
+                    String.fromCharCode(...new Uint8Array(item.img.data))
+                  )(
+                    <div
+                      key={id}
+                      className="w-full place-self-center flex flex-col"
+                    >
+                      <div className="flex flex-row relative">
+                        <img
+                          src={`data:image/png;base64, ${base64string}`}
+                          alt="food item"
+                          className="w-10 object-cover h-10 rounded-full"
+                        />
+                        <p className="w-5/12 text-white mx-3 place-self-center text-xs">
+                          {item.name}
+                        </p>
 
-                      <p className="w-2/12 place-self-center text-right text-white text-s">
-                        ${item.cost}
-                      </p>
-                      <FontAwesomeIcon
-                        onClick={() => addMeal(item)}
-                        className="w-2/12 text-lg place-self-center absolute right-0 text-teal"
-                        icon={faCartShopping}
-                      />
-                    </div>
+                        <p className="w-2/12 place-self-center text-right text-white text-s">
+                          ${item.cost}
+                        </p>
+                        <FontAwesomeIcon
+                          onClick={() => addMeal(item)}
+                          className="w-2/12 text-lg place-self-center absolute right-0 text-teal"
+                          icon={faCartShopping}
+                        />
+                      </div>
 
-                    <div className="flex relative row w-full">
-                      <p className="my-3 place-self-center text-white text-xs">
-                        Info: {item.description}
-                      </p>
+                      <div className="flex relative row w-full">
+                        <p className="my-3 place-self-center text-white text-xs">
+                          Info: {item.description}
+                        </p>
+                      </div>
+                      <hr className="w-full my-3" />
                     </div>
-                    <hr className="w-full my-3" />
-                  </div>
-                ))}
+                  );
+                })}
           </div>
         </div>
       </div>

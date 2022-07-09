@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
+import multer from "multer";
+import fs from "fs";
 import {
   signUpUser,
   loginUser,
@@ -79,6 +81,8 @@ db.on("error", console.error.bind(console, "connection error"));
 db.once("open", function () {
   console.log("CONNECTED");
 });
+
+//image storage
 
 app.post("/create-checkout-session", async (req, res) => {
   const items = req.body;
@@ -163,7 +167,66 @@ app.post("/findRestaurant", findRestaurant);
 app.post("/findTheRestaurant", findTheRest);
 app.post("/findUser", findUser);
 
-app.post("/addDish/:email", addDish);
+//image and dish upload
+let unique;
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "dishImgs");
+  },
+  filename: (req, file, cb) => {
+    unique = new Date().toLocaleString;
+    cb(null, file.originalname + " " + unique);
+  },
+});
+
+const imageFilter = function (req, file, cb) {
+  // Accept images only
+  if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+    req.fileValidationError = "Only image files are allowed!";
+    return cb(new Error("Only image files are allowed!"), false);
+  }
+  cb(null, true);
+};
+
+let upload = multer({ storage: storage, fileFilter: imageFilter }).single(
+  "dishImg"
+);
+
+app.post("/addDish/:email", upload.single("test"), async (req, res) => {
+  const { name, description, ingredients, cost, prepTime, img } = req.body;
+  const available = true;
+  const obj = {
+    name,
+    description,
+    ingredients,
+    cost,
+    prepTime,
+    img: {
+      data: fs.readFileSync("dishImgs/" + unique + "" + req.file.filename),
+      contentType: "image/png",
+    },
+    available,
+  };
+  const restEmail = req.params.email;
+
+  try {
+    const resp = await restaurantModel.updateOne(
+      {
+        email: restEmail,
+      },
+      {
+        $addToSet: {
+          dishes: obj,
+        },
+      }
+    );
+    res.status(201).json("item added");
+  } catch (err) {
+    res.status(404);
+    console.log(err);
+  }
+});
+
 app.post("/findDishes", findDishes);
 app.post("/deleteDish", deleteDish);
 app.put("/updateMeal", updateMeal);

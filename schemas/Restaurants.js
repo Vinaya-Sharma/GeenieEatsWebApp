@@ -19,7 +19,10 @@ const restaurantSchema = new mongoose.Schema({
       ingredients: [String],
       prepTime: Number,
       available: Boolean,
-      img: String,
+      img: {
+        data: Buffer,
+        contentType: String,
+      },
     },
   ],
   slug: { type: String, slug: "name", unique: true },
