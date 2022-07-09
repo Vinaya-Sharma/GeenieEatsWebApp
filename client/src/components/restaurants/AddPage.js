@@ -131,9 +131,7 @@ const AddPage = () => {
           </div>
           {meals?.length > 0 &&
             meals?.map((meal) => {
-              const base64string = Buffer.from(meal.img.data).toString(
-                "base64"
-              )(
+              let base64string = Buffer.from(meal.img.data, ["base64"])(
                 <div
                   key={meal._id}
                   className={`${
