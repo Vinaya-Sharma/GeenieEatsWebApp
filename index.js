@@ -182,16 +182,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
-  if (allowedFileTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-let upload = multer({ storage, fileFilter });
+let upload = multer({ storage });
 
 app.post("/addDish/:email", upload.single("img"), async (req, res) => {
   const { name, description, ingredients, cost, prepTime } = req.body;
