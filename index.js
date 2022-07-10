@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
-const multer = require("multer");
+import multer from "multer";
 import fs from "fs";
 import {
   signUpUser,
