@@ -64,6 +64,7 @@ app.use(
 );
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
+app.use(express.static(__dirname));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -172,10 +173,11 @@ app.post("/findUser", findUser);
 let theFileName;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads/");
+    cb(null, path.join(__dirname, "/uploads/"));
   },
   filename: function (req, file, cb) {
     theFileName = Date.now() + "" + path.extname(file.originalname);
+    console.log("filename", theFileName);
     cb(null, theFileName);
   },
 });
@@ -202,7 +204,7 @@ app.post("/addDish/:email", upload.single("img"), async (req, res) => {
     cost,
     prepTime,
     img: {
-      data: fs.readFileSync("./uploads/" + theFileName),
+      data: fs.readFileSync("uploads/" + theFileName),
       contentType: "image/png",
     },
     available,
