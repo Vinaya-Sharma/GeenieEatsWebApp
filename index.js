@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import multer from "multer";
+import path from "path";
 import fs from "fs";
 import {
   signUpUser,
@@ -172,7 +173,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "" + file.originalname);
+    cb(null, Date.now() + "" + path.extname(file.originalname));
   },
 });
 
@@ -198,9 +199,7 @@ app.post("/addDish/:email", upload.single("img"), async (req, res) => {
     cost,
     prepTime,
     img: {
-      data: fs.readFileSync(
-        path.join(__dirname + "/uploads/" + img.originalname)
-      ),
+      data: fs.readFileSync(path.join(__dirname + "/uploads/" + img)),
       contentType: "image/png",
     },
     available,
