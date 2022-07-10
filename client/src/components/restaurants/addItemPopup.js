@@ -95,7 +95,7 @@ const AddItemPopup = ({
           </p>
           <form
             // onSubmit={(e) => addDish(e)}
-            action={`/add/${restEmail}`}
+            action={`/addDish/${restEmail}`}
             enctype="multipart/form-data"
             method="post"
             className="flex flex-row flex-wrap"
