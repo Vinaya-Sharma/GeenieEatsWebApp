@@ -76,7 +76,7 @@ const AddItemPopup = ({
   };
 
   let formData;
-  onSelectImageHandler = (files) => {
+  const onSelectImageHandler = (files) => {
     const file = files[0];
     formData = {
       file: file,
@@ -168,7 +168,7 @@ const AddItemPopup = ({
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="file"
                 id="inputGroupFile01"
-                onChange={(e) => this.onSelectImageHandler(e.target.files)}
+                onChange={(e) => onSelectImageHandler(e.target.files)}
               />
             </div>
 
