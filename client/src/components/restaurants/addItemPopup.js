@@ -35,7 +35,7 @@ const AddItemPopup = ({
           ingredients,
           cost,
           prepTime,
-          img: formData,
+          img: formData.file,
         });
         setAddPopup(false);
         setName("");

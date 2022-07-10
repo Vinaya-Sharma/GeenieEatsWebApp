@@ -203,7 +203,7 @@ app.post("/addDish/:email", upload.single("img"), async (req, res) => {
     prepTime,
     img: {
       data: fs.readFileSync(
-        path.join(__dirname + "/uploads/" + req.file.filename)
+        path.join(__dirname + "/uploads/" + img.originalname)
       ),
       contentType: "image/png",
     },
