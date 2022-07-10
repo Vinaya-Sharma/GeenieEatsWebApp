@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import multer from "multer";
+import restaurantModel from "./schemas/Restaurants";
 import path from "path";
 import fs from "fs";
 import {
@@ -170,7 +171,7 @@ app.post("/findTheRestaurant", findTheRest);
 app.post("/findUser", findUser);
 
 //image and dish upload
-let theFileName;
+// let theFileName;
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
 //     cb(null, "uploads");

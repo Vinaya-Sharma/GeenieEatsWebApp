@@ -97,7 +97,7 @@ const AddItemPopup = ({
             // onSubmit={(e) => addDish(e)}
             action={`/addDish/${restEmail}`}
             enctype="multipart/form-data"
-            method="post"
+            method="POST"
             className="flex flex-row flex-wrap"
           >
             <div className="px-5  w-full flex md:w-3/6 min-w-150 flex-col">
@@ -137,25 +137,25 @@ const AddItemPopup = ({
               />
             </div>
             <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
-              <label className="text-sm" htmlFor="Ingredients">
+              <label className="text-sm" htmlFor="ingredients">
                 Ingredients
               </label>
               <input
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="text"
-                name="Ingredients"
+                name="ingredients"
                 value={ingredients}
                 onChange={(e) => setIngredients(e.target.value)}
               />
             </div>
             <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
-              <label className="text-sm" htmlFor="PrepTime">
+              <label className="text-sm" htmlFor="prepTime">
                 Approximate PrepTime
               </label>
               <input
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="text"
-                name="PrepTime"
+                name="prepTime"
                 value={prepTime}
                 onChange={(e) => setPreptime(e.target.value)}
               />
