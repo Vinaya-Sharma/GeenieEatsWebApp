@@ -171,27 +171,23 @@ app.post("/findUser", findUser);
 
 //image and dish upload
 let theFileName;
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads");
-  },
-  filename: function (req, file, cb) {
-    theFileName = Date.now() + "" + path.extname(file.originalname);
-    console.log("filename", theFileName);
-    cb(null, theFileName);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads");
+//   },
+//   filename: function (req, file, cb) {
+//     theFileName = Date.now() + "" + path.extname(file.originalname);
+//     console.log("filename", theFileName);
+//     cb(null, theFileName);
+//   },
+// });
 
-let upload = multer({ storage: storage }).single("dishImg");
+// const upload = multer({ storage: storage }).single("dishImg");
 
-app.post("/addDish/:email", async (req, res) => {
-  upload(req, res, function (err) {
-    if (err) {
-      console.log(err);
-      return res.end("Error uploading file.");
-    }
-  });
+const upload = multer({ dest: "uploads/" });
 
+app.post("/addDish/:email", upload.single("dishImg"), async (req, res) => {
+  console.log(req.file);
   const { name, description, ingredients, cost, prepTime } = req.body;
   // const img = req.file.filename;
   const available = true;
@@ -202,8 +198,8 @@ app.post("/addDish/:email", async (req, res) => {
     cost,
     prepTime,
     img: {
-      data: fs.readFileSync("uploads/" + theFileName),
-      contentType: "image/png",
+      data: name,
+      contentType: "string",
     },
     available,
   };
