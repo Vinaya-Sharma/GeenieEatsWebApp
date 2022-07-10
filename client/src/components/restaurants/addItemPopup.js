@@ -57,7 +57,7 @@ const AddItemPopup = ({
         formData.append("preptime", prepTime);
         formData.append("img", img);
 
-        axios
+        const resp = axios
           .post(`/addDish/${restEmail}`, formData)
           .then((res) => {
             console.log(res);
@@ -79,14 +79,6 @@ const AddItemPopup = ({
         console.log(err);
       }
     }
-  };
-
-  let formData;
-  const onSelectImageHandler = (files) => {
-    const file = files[0];
-    formData = {
-      file: file,
-    };
   };
 
   return (
