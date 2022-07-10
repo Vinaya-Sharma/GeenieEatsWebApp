@@ -85,8 +85,6 @@ db.once("open", function () {
   console.log("CONNECTED");
 });
 
-//image storage
-
 app.post("/create-checkout-session", async (req, res) => {
   const items = req.body;
   const theLineItems = items?.map((item) => ({
