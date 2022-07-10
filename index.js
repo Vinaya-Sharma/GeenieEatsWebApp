@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import multer from "multer";
-import restaurantModel from "./schemas/Restaurants";
+import restaurantModel from "./schemas/Restaurants.js";
 import path from "path";
 import fs from "fs";
 import {
