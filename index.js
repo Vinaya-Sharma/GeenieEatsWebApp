@@ -167,27 +167,32 @@ app.post("/findTheRestaurant", findTheRest);
 app.post("/findUser", findUser);
 
 //image and dish upload
-let unique;
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    cb(null, true);
+  } else {
+    cb("JPEG and PNG only supported", false);
+  }
+};
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "dishImgs");
+  destination: function (req, file, cb) {
+    cb(null, "./dishImgs");
   },
-  filename: (req, file, cb) => {
-    unique = new Date().toLocaleString;
-    cb(null, file.originalname + " " + unique);
+  filename: function (req, file, cb) {
+    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
   },
 });
 
-const imageFilter = function (req, file, cb) {
-  // Accept images only
-  if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
-    req.fileValidationError = "Only image files are allowed!";
-    return cb(new Error("Only image files are allowed!"), false);
-  }
-  cb(null, true);
-};
+const upload = multer({
+  storage: storage,
+  limts: {
+    fileSize: 1024 * 1024 * 5,
+  },
+  fileFilter: fileFilter,
+});
 
-app.post("/addDish/:email", async (req, res) => {
+app.post("/addDish/:email", upload.single("productImage"), async (req, res) => {
   const { name, description, ingredients, cost, prepTime, img } = req.body;
   const available = true;
   const obj = {
@@ -196,15 +201,10 @@ app.post("/addDish/:email", async (req, res) => {
     ingredients,
     cost,
     prepTime,
-    img: {
-      data: fs.readFileSync("dishImgs/" + unique + "" + req.file.filename),
-      contentType: "image/png",
-    },
+    img: req.file,
     available,
   };
-  let upload = multer({ storage: storage, fileFilter: imageFilter }).single(
-    "dishImg"
-  );
+
   const restEmail = req.params.email;
 
   try {

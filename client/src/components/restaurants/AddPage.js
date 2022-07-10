@@ -131,79 +131,78 @@ const AddPage = () => {
           </div>
           {meals?.length > 0 &&
             meals?.map((meal) => {
-              let base64string = Buffer.from(meal.img.data, ["base64"])(
-                <div
-                  key={meal._id}
-                  className={`${
-                    meal.available ? "opacity-100" : "opacity-50"
-                  } min-w-250 my-5 h-full w-[31%] place-self-center center text-center flex flex-col border-[#393C49] rounded-lg border-2`}
-                >
-                  <img
-                    className="rounded-lg w-full h-36 object-cover"
-                    src={`data:image/png;base64, ${base64string}`}
-                    alt={`${meal.name}-img`}
-                  />
-                  <p className="text-md font-bold text-white place-self-center w-full text-center my-3">
-                    {meal.name}
-                  </p>
-                  <p className="text-sm  text-white place-self-center w-full text-center my-1">
-                    {meal.description}
-                  </p>
-                  <p className="text-sm font-bold text-stone-300 place-self-center w-full text-center my-3">
-                    ${meal.cost} •{" "}
-                    {meal.prepTime
-                      ? `${meal.prepTime}mins`
-                      : `Ingredients: ${
-                          meal.ingredients.length > 10
-                            ? `${meal.ingredients.slice(0, 10)}...`
-                            : meal.ingredients
-                        }`}{" "}
-                  </p>
-                  <div className="w-full h-20 mt-3 bg-teal bg-opacity-50 flex rounded-sm place-content-center center justify-center flex-row">
-                    <div
-                      onClick={() => {
-                        editDish(meal);
-                      }}
-                      className="flex flex-col text-teal hover:text-white place-content-center place-self-center w-2/6 mx-5"
-                    >
-                      {" "}
-                      <FontAwesomeIcon
-                        className="w-6 h-6 place-self-center"
-                        icon={faPenToSquare}
-                      />{" "}
-                      <p className="place-self-center text-sm mt-1 w-full text-center">
-                        edit
-                      </p>{" "}
-                    </div>
-                    <div
-                      onClick={() => updateVisibility(meal)}
-                      className="flex flex-col text-teal hover:text-white place-content-center align-center w-2/6 mx-5"
-                    >
-                      {" "}
-                      <FontAwesomeIcon
-                        className="w-6 h-6 place-self-center"
-                        icon={meal.available ? faEye : faEyeSlash}
-                      />{" "}
-                      <p className="place-self-center text-sm mt-1 w-full text-center">
-                        {meal.available ? "available" : "unavailable"}
-                      </p>{" "}
-                    </div>
-                    <div
-                      onClick={() => deleteMeal(meal)}
-                      className="flex flex-col text-teal hover:text-white place-content-center align-center w-2/6 mx-5"
-                    >
-                      {" "}
-                      <FontAwesomeIcon
-                        className="w-6 h-6 place-self-center "
-                        icon={faTrash}
-                      />{" "}
-                      <p className="place-self-center text-sm mt-1 w-full text-center">
-                        remove
-                      </p>{" "}
-                    </div>
+              <div
+                key={meal._id}
+                className={`${
+                  meal.available ? "opacity-100" : "opacity-50"
+                } min-w-250 my-5 h-full w-[31%] place-self-center center text-center flex flex-col border-[#393C49] rounded-lg border-2`}
+              >
+                <img
+                  className="rounded-lg w-full h-36 object-cover"
+                  src={`data:${meal}/<%=${meal}.img.contentType%>;base64,
+                    <%=${meal}.img.data.toString('base64')%>`}
+                  alt={`${meal.name}-img`}
+                />
+                <p className="text-md font-bold text-white place-self-center w-full text-center my-3">
+                  {meal.name}
+                </p>
+                <p className="text-sm  text-white place-self-center w-full text-center my-1">
+                  {meal.description}
+                </p>
+                <p className="text-sm font-bold text-stone-300 place-self-center w-full text-center my-3">
+                  ${meal.cost} •{" "}
+                  {meal.prepTime
+                    ? `${meal.prepTime}mins`
+                    : `Ingredients: ${
+                        meal.ingredients.length > 10
+                          ? `${meal.ingredients.slice(0, 10)}...`
+                          : meal.ingredients
+                      }`}{" "}
+                </p>
+                <div className="w-full h-20 mt-3 bg-teal bg-opacity-50 flex rounded-sm place-content-center center justify-center flex-row">
+                  <div
+                    onClick={() => {
+                      editDish(meal);
+                    }}
+                    className="flex flex-col text-teal hover:text-white place-content-center place-self-center w-2/6 mx-5"
+                  >
+                    {" "}
+                    <FontAwesomeIcon
+                      className="w-6 h-6 place-self-center"
+                      icon={faPenToSquare}
+                    />{" "}
+                    <p className="place-self-center text-sm mt-1 w-full text-center">
+                      edit
+                    </p>{" "}
+                  </div>
+                  <div
+                    onClick={() => updateVisibility(meal)}
+                    className="flex flex-col text-teal hover:text-white place-content-center align-center w-2/6 mx-5"
+                  >
+                    {" "}
+                    <FontAwesomeIcon
+                      className="w-6 h-6 place-self-center"
+                      icon={meal.available ? faEye : faEyeSlash}
+                    />{" "}
+                    <p className="place-self-center text-sm mt-1 w-full text-center">
+                      {meal.available ? "available" : "unavailable"}
+                    </p>{" "}
+                  </div>
+                  <div
+                    onClick={() => deleteMeal(meal)}
+                    className="flex flex-col text-teal hover:text-white place-content-center align-center w-2/6 mx-5"
+                  >
+                    {" "}
+                    <FontAwesomeIcon
+                      className="w-6 h-6 place-self-center "
+                      icon={faTrash}
+                    />{" "}
+                    <p className="place-self-center text-sm mt-1 w-full text-center">
+                      remove
+                    </p>{" "}
                   </div>
                 </div>
-              );
+              </div>;
             })}
         </div>
       </div>
