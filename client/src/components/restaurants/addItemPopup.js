@@ -35,7 +35,7 @@ const AddItemPopup = ({
           ingredients,
           cost,
           prepTime,
-          img: formData.file,
+          img: "https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg",
         });
         setAddPopup(false);
         setName("");
