@@ -169,12 +169,14 @@ app.post("/findTheRestaurant", findTheRest);
 app.post("/findUser", findUser);
 
 //image and dish upload
+let theFileName;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "./uploads/");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "" + path.extname(file.originalname));
+    theFileName = Date.now() + "" + path.extname(file.originalname);
+    cb(null, theFileName);
   },
 });
 
@@ -191,7 +193,7 @@ let upload = multer({ storage, fileFilter });
 
 app.post("/addDish/:email", upload.single("img"), async (req, res) => {
   const { name, description, ingredients, cost, prepTime } = req.body;
-  const img = req.file.filename;
+  // const img = req.file.filename;
   const available = true;
   const obj = {
     name,
@@ -200,7 +202,7 @@ app.post("/addDish/:email", upload.single("img"), async (req, res) => {
     cost,
     prepTime,
     img: {
-      data: fs.readFileSync(path.join(__dirname + "/uploads/" + img)),
+      data: fs.readFileSync("./uploads/" + theFileName),
       contentType: "image/png",
     },
     available,
