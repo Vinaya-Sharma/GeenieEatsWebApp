@@ -63,6 +63,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -170,7 +171,7 @@ app.post("/findUser", findUser);
 //image and dish upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads");
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "" + path.extname(file.originalname));
