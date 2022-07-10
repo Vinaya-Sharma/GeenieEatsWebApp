@@ -95,6 +95,7 @@ const AddItemPopup = ({
           </p>
           <form
             onSubmit={(e) => addDish(e)}
+            encType="multipart/form-data"
             className="flex flex-row flex-wrap"
           >
             <div className="px-5  w-full flex md:w-3/6 min-w-150 flex-col">
