@@ -95,7 +95,6 @@ const AddItemPopup = ({
           </p>
           <form
             // onSubmit={(e) => addDish(e)}
-            onSubmit={(e) => e.preventDefault()}
             action={`/addDish/${restEmail}`}
             enctype="multipart/form-data"
             method="POST"
