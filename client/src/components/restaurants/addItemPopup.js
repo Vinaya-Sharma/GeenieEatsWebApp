@@ -35,7 +35,7 @@ const AddItemPopup = ({
           ingredients,
           cost,
           prepTime,
-          img,
+          img: formData,
         });
         setAddPopup(false);
         setName("");
@@ -73,6 +73,14 @@ const AddItemPopup = ({
         console.log(err);
       }
     }
+  };
+
+  let formData;
+  onSelectImageHandler = (files) => {
+    const file = files[0];
+    formData = {
+      file: file,
+    };
   };
 
   return (
@@ -157,11 +165,10 @@ const AddItemPopup = ({
                 Select your profile picture:
               </label>
               <input
-                value={img}
-                onChange={(e) => setImg(e.target.value)}
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="file"
-                name="dishImg"
+                id="inputGroupFile01"
+                onChange={(e) => this.onSelectImageHandler(e.target.files)}
               />
             </div>
 

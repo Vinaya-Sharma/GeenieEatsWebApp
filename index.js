@@ -177,7 +177,7 @@ const fileFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./dishImgs");
+    cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
     cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
@@ -192,7 +192,7 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-app.post("/addDish/:email", upload.single("productImage"), async (req, res) => {
+app.post("/addDish/:email", upload.single("img"), async (req, res) => {
   const { name, description, ingredients, cost, prepTime, img } = req.body;
   const available = true;
   const obj = {
@@ -201,7 +201,12 @@ app.post("/addDish/:email", upload.single("productImage"), async (req, res) => {
     ingredients,
     cost,
     prepTime,
-    img: req.file,
+    img: {
+      data: fs.readFileSync(
+        path.join(__dirname + "/uploads/" + req.file.filename)
+      ),
+      contentType: "image/png",
+    },
     available,
   };
 
