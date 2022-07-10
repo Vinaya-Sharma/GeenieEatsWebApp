@@ -166,6 +166,8 @@ const AddItemPopup = ({
               <input
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="file"
+                name="dishImg"
+                accept=".png, .jpg, .jpeg"
                 id="inputGroupFile01"
                 onChange={(e) => setImg(e.target.files[0])}
               />
