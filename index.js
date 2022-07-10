@@ -167,33 +167,29 @@ app.post("/findTheRestaurant", findTheRest);
 app.post("/findUser", findUser);
 
 //image and dish upload
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "images");
+  },
+  filename: function (req, file, cb) {
+    cb(null, uuidv4() + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+  if (allowedFileTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb("JPEG and PNG only supported", false);
+    cb(null, false);
   }
 };
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
-  },
-});
-
-const upload = multer({
-  storage: storage,
-  limts: {
-    fileSize: 1024 * 1024 * 5,
-  },
-  fileFilter: fileFilter,
-});
+let upload = multer({ storage, fileFilter });
 
 app.post("/addDish/:email", upload.single("img"), async (req, res) => {
-  const { name, description, ingredients, cost, prepTime, img } = req.body;
+  const { name, description, ingredients, cost, prepTime } = req.body;
+  const img = req.file.filename;
   const available = true;
   const obj = {
     name,

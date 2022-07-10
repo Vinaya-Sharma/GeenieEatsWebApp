@@ -50,15 +50,21 @@ const AddItemPopup = ({
       }
     } else {
       try {
-        const resp = await axios.post(`/addDish/${restEmail}`, {
-          name,
-          description,
-          ingredients,
-          cost,
-          prepTime,
-          img,
-        });
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("cost", cost);
+        formData.append("preptime", prepTime);
+        formData.append("img", img);
 
+        axios
+          .post(`/addDish/${restEmail}`, formData)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         if (resp.status === 201) {
           setAddPopup(false);
           setName("");
@@ -168,7 +174,7 @@ const AddItemPopup = ({
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="file"
                 id="inputGroupFile01"
-                onChange={(e) => onSelectImageHandler(e.target.files)}
+                onChange={(e) => setImg(e.target.files[0])}
               />
             </div>
 
