@@ -182,9 +182,16 @@ const storage = multer.diskStorage({
   },
 });
 
-let upload = multer({ storage });
+let upload = multer({ storage: storage }).single("dishImg");
 
-app.post("/addDish/:email", upload.single("dishImg"), async (req, res) => {
+app.post("/addDish/:email", async (req, res) => {
+  upload(req, res, function (err) {
+    if (err) {
+      console.log(err);
+      return res.end("Error uploading file.");
+    }
+  });
+
   const { name, description, ingredients, cost, prepTime } = req.body;
   // const img = req.file.filename;
   const available = true;
