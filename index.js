@@ -173,10 +173,10 @@ app.post("/findUser", findUser);
 let theFileName;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "/uploads/"));
+    cb(null, "uploads");
   },
   filename: function (req, file, cb) {
-    theFileName = Date.now() + "" + path.extname(file.originalname);
+    theFileName = Date.now() + "" + file.originalname;
     console.log("filename", theFileName);
     cb(null, theFileName);
   },
