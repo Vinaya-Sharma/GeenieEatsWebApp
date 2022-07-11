@@ -3,6 +3,37 @@ import restaurantModel from "../schemas/Restaurants.js";
 import orderSchema from "../schemas/Order.js";
 import jwt from "jsonwebtoken";
 
+export const addDish = async (req, res) => {
+  const { name, description, ingredients, cost, prepTime, img } = req.body;
+  const available = true;
+  const obj = {
+    name,
+    description,
+    ingredients,
+    cost,
+    prepTime,
+    img,
+    available,
+  };
+  const restEmail = req.params.email;
+
+  try {
+    const resp = await restaurantModel.updateOne(
+      {
+        email: restEmail,
+      },
+      {
+        $addToSet: {
+          dishes: obj,
+        },
+      }
+    );
+    res.status(201).json("item added");
+  } catch (err) {
+    res.status(404);
+  }
+};
+
 export const updateProfile = async (req, res) => {
   const { restData } = req.body;
 
