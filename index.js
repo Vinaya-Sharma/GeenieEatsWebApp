@@ -2,10 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
-import multer from "multer";
-import restaurantModel from "./schemas/Restaurants.js";
-import path from "path";
-import fs from "fs";
 import {
   signUpUser,
   loginUser,
@@ -28,6 +24,7 @@ import {
   findRestaurants,
   findRestaurant,
   findTheRest,
+  addDish,
   findDishes,
   deleteDish,
   updateMeal,
@@ -64,8 +61,6 @@ app.use(
   })
 );
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
-app.use(express.static(__dirname));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -168,61 +163,7 @@ app.post("/findRestaurant", findRestaurant);
 app.post("/findTheRestaurant", findTheRest);
 app.post("/findUser", findUser);
 
-//image and dish upload
-// let theFileName;
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "uploads");
-//   },
-//   filename: function (req, file, cb) {
-//     theFileName = Date.now() + "" + path.extname(file.originalname);
-//     console.log("filename", theFileName);
-//     cb(null, theFileName);
-//   },
-// });
-
-// const upload = multer({ storage: storage }).single("dishImg");
-
-const upload = multer({ dest: "uploads/" });
-
-app.post("/addDish/:email", upload.single("dishImg"), async (req, res) => {
-  console.log(req.file);
-  const { name, description, ingredients, cost, prepTime } = req.body;
-  // const img = req.file.filename;
-  const available = true;
-  const obj = {
-    name,
-    description,
-    ingredients,
-    cost,
-    prepTime,
-    img: {
-      data: name,
-      contentType: "string",
-    },
-    available,
-  };
-
-  const restEmail = req.params.email;
-
-  try {
-    const resp = await restaurantModel.updateOne(
-      {
-        email: restEmail,
-      },
-      {
-        $addToSet: {
-          dishes: obj,
-        },
-      }
-    );
-    res.status(201).json("item added");
-  } catch (err) {
-    res.status(404);
-    console.log(err);
-  }
-});
-
+app.post("/addDish/:email", addDish);
 app.post("/findDishes", findDishes);
 app.post("/deleteDish", deleteDish);
 app.put("/updateMeal", updateMeal);

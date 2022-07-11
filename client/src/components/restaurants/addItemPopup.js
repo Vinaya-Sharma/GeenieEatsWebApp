@@ -35,7 +35,7 @@ const AddItemPopup = ({
           ingredients,
           cost,
           prepTime,
-          img: "https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg",
+          img,
         });
         setAddPopup(false);
         setName("");
@@ -50,21 +50,15 @@ const AddItemPopup = ({
       }
     } else {
       try {
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("cost", cost);
-        formData.append("preptime", prepTime);
-        formData.append("img", img);
+        const resp = await axios.post(`/addDish/${restEmail}`, {
+          name,
+          description,
+          ingredients,
+          cost,
+          prepTime,
+          img,
+        });
 
-        const resp = axios
-          .post(`/addDish/${restEmail}`, formData)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
         if (resp.status === 201) {
           setAddPopup(false);
           setName("");
@@ -94,10 +88,7 @@ const AddItemPopup = ({
             Dish Information
           </p>
           <form
-            // onSubmit={(e) => addDish(e)}
-            action={`/addDish/${restEmail}`}
-            enctype="multipart/form-data"
-            method="POST"
+            onSubmit={(e) => addDish(e)}
             className="flex flex-row flex-wrap"
           >
             <div className="px-5  w-full flex md:w-3/6 min-w-150 flex-col">
@@ -137,52 +128,49 @@ const AddItemPopup = ({
               />
             </div>
             <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
-              <label className="text-sm" htmlFor="ingredients">
+              <label className="text-sm" htmlFor="Ingredients">
                 Ingredients
               </label>
               <input
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="text"
-                name="ingredients"
+                name="Ingredients"
                 value={ingredients}
                 onChange={(e) => setIngredients(e.target.value)}
               />
             </div>
             <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
-              <label className="text-sm" htmlFor="prepTime">
+              <label className="text-sm" htmlFor="PrepTime">
                 Approximate PrepTime
               </label>
               <input
                 className="my-3 px-3 py-2 rounded-lg outline-white"
                 type="text"
-                name="prepTime"
+                name="PrepTime"
                 value={prepTime}
                 onChange={(e) => setPreptime(e.target.value)}
               />
             </div>
-
             <div className="flex px-5 w-full   md:w-3/6 min-w-150 flex-col">
-              <label className="text-sm" htmlFor="dishImg">
-                Select your profile picture:
+              <label className="text-sm" htmlFor="img">
+                Image
               </label>
               <input
                 className="my-3 px-3 py-2 rounded-lg outline-white"
-                type="file"
-                name="dishImg"
-                accept=".png, .jpg, .jpeg"
-                id="inputGroupFile01"
-                onChange={(e) => setImg(e.target.files[0])}
+                type="text"
+                name="img"
+                value={img}
+                onChange={(e) => setImg(e.target.value)}
               />
             </div>
-
-            {/* <img
+            <img
               className="w-full h-44 object-contain"
               src={
                 img
                   ? img
                   : "https://aadhyafoodindian.com/img/placeholders/grey_fork_and_knife.png"
               }
-            /> */}
+            />
             <div className="w-full flex flex-col place-content-center h-full">
               <input
                 type="submit"

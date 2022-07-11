@@ -130,7 +130,7 @@ const AddPage = () => {
             </p>
           </div>
           {meals?.length > 0 &&
-            meals?.map((meal) => {
+            meals?.map((meal) => (
               <div
                 key={meal._id}
                 className={`${
@@ -139,8 +139,7 @@ const AddPage = () => {
               >
                 <img
                   className="rounded-lg w-full h-36 object-cover"
-                  src={`data:${meal}/<%=${meal}.img.contentType%>;base64,
-                    <%=${meal}.img.data.toString('base64')%>`}
+                  src={meal.img}
                   alt={`${meal.name}-img`}
                 />
                 <p className="text-md font-bold text-white place-self-center w-full text-center my-3">
@@ -202,8 +201,8 @@ const AddPage = () => {
                     </p>{" "}
                   </div>
                 </div>
-              </div>;
-            })}
+              </div>
+            ))}
         </div>
       </div>
     </div>
